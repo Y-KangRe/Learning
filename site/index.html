@@ -515,10 +515,10 @@ body {
   display: grid; grid-template-columns: repeat(4,1fr); gap: 8px;
 }
 .type-opt {
-  padding: 11px 6px; border-radius: var(--rs);
+  padding: 10px 4px; border-radius: var(--rs);
   border: 1px solid var(--border);
   background: var(--bg3); color: var(--text2);
-  font-size: 12px; text-align: center;
+  font-size: 11.5px; text-align: center;
   cursor: pointer; transition: all .15s; font-family: inherit;
 }
 .type-opt .ti { font-size: 20px; display: block; margin-bottom: 4px; }
@@ -588,6 +588,62 @@ body {
 }
 .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
+/* ── Upload Zone ── */
+.upload-zone {
+  border: 2px dashed var(--border2);
+  border-radius: var(--r);
+  padding: 28px 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: all .2s;
+  background: var(--bg3);
+  position: relative;
+  margin-bottom: 14px;
+}
+.upload-zone:hover, .upload-zone.drag-over {
+  border-color: var(--accent);
+  background: rgba(108,138,255,.08);
+}
+.upload-zone input[type="file"] {
+  position: absolute; inset: 0; opacity: 0; cursor: pointer;
+}
+.upload-icon { font-size: 36px; margin-bottom: 8px; }
+.upload-text { font-size: 13.5px; color: var(--text); margin-bottom: 4px; font-weight: 500; }
+.upload-hint { font-size: 11.5px; color: var(--text3); }
+.file-info-row {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 14px;
+  background: var(--bg3);
+  border-radius: var(--rs);
+  border: 1px solid var(--border);
+  margin-bottom: 14px;
+  transition: background .25s;
+}
+.file-icon { font-size: 24px; flex-shrink: 0; }
+.file-name { font-size: 13px; color: var(--text); font-weight: 500; flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.file-size { font-size: 11px; color: var(--text3); white-space: nowrap; }
+.file-remove {
+  width: 24px; height: 24px; display: flex; align-items: center; justify-content: center;
+  border-radius: 50%; cursor: pointer; color: var(--text3); font-size: 14px;
+  transition: all .15s; flex-shrink: 0;
+}
+.file-remove:hover { background: rgba(248,113,113,.15); color: var(--red); }
+
+/* File card variant */
+.resource-card.type-file::before { background: linear-gradient(90deg,#6366f1,#8b5cf6); }
+.badge-file { background: rgba(99,102,241,.15); color: #818cf8; }
+
+/* Download button */
+.btn-download {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 16px;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  color: #fff; border: none; border-radius: var(--rs);
+  font-size: 13px; font-weight: 600; cursor: pointer;
+  transition: opacity .2s; font-family: inherit; text-decoration: none;
+}
+.btn-download:hover { opacity: .86; }
+
 /* ── Responsive ── */
 @media (max-width: 800px) {
   .sidebar { display: none; }
@@ -632,6 +688,10 @@ body {
     <div class="nav-item" onclick="setNav(this,'pdf')">
       <span class="ni">📄</span> PDF 文档
       <span class="nbadge" id="badgePdf">0</span>
+    </div>
+    <div class="nav-item" onclick="setNav(this,'file')">
+      <span class="ni">📁</span> 上传文件
+      <span class="nbadge" id="badgeFile">0</span>
     </div>
   </div>
 
@@ -689,7 +749,7 @@ body {
     <div class="stat-card">
       <div class="stat-label">视频 & PDF</div>
       <div class="stat-value sv-amber" id="statMedia">0</div>
-      <div class="stat-sub">个文件</div>
+      <div class="stat-sub">个文件 & 媒体</div>
     </div>
   </div>
 
@@ -700,6 +760,7 @@ body {
     <button class="filter-chip" onclick="setFilter('link',this)">🔗 链接</button>
     <button class="filter-chip" onclick="setFilter('video',this)">▶ 视频</button>
     <button class="filter-chip" onclick="setFilter('pdf',this)">📄 PDF</button>
+    <button class="filter-chip" onclick="setFilter('file',this)">📁 文件</button>
   </div>
 
   <div class="section-label" id="sectionLabel">最近添加</div>
@@ -721,7 +782,21 @@ body {
         <div class="type-opt" onclick="setType('link',this)"><span class="ti">🔗</span>链接</div>
         <div class="type-opt" onclick="setType('video',this)"><span class="ti">▶</span>视频</div>
         <div class="type-opt" onclick="setType('pdf',this)"><span class="ti">📄</span>PDF</div>
+        <div class="type-opt" onclick="setType('file',this)"><span class="ti">📁</span>文件</div>
       </div>
+    </div>
+    <!-- 文件上传区 -->
+    <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()">
+      <div class="upload-icon">📤</div>
+      <div class="upload-text">点击上传或拖拽文件到此处</div>
+      <div class="upload-hint">支持 PDF、Word、Excel、PPT、图片、代码文件等（最大 50MB）</div>
+      <input type="file" id="fileInput" onchange="handleFileSelect(event)" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.py,.js,.ts,.html,.css,.java,.c,.cpp,.go,.rs,.rb,.php,.json,.xml,.md,.png,.jpg,.jpeg,.gif,.svg,.webp,.zip,.rar,.7z">
+    </div>
+    <div class="file-info-row" id="fileInfoRow" style="display:none">
+      <span class="file-icon" id="fileIcon">📄</span>
+      <span class="file-name" id="fileName"></span>
+      <span class="file-size" id="fileSize"></span>
+      <span class="file-remove" onclick="removeFile()" title="移除文件">✕</span>
     </div>
     <div class="form-group">
       <div class="form-label">标题 *</div>
@@ -768,6 +843,80 @@ body {
 
 <script>
 /* ══════════════════════════════════════
+   IndexedDB — 文件存储
+══════════════════════════════════════ */
+const FileDB = (() => {
+  const DB_NAME = 'LearningFiles';
+  const DB_VER  = 1;
+
+  function open() {
+    return new Promise((resolve, reject) => {
+      const req = indexedDB.open(DB_NAME, DB_VER);
+      req.onupgradeneeded = () => {
+        const db = req.result;
+        if (!db.objectStoreNames.contains('files'))
+          db.createObjectStore('files', { keyPath: 'id' });
+      };
+      req.onsuccess = () => resolve(req.result);
+      req.onerror   = () => reject(req.error);
+    });
+  }
+
+  async function saveFile(id, file) {
+    const db = await open();
+    return new Promise((resolve, reject) => {
+      const tx = db.transaction('files', 'readwrite');
+      tx.objectStore('files').put({ id, name: file.name, size: file.size, type: file.type, lastModified: file.lastModified, data: file });
+      tx.oncomplete = () => resolve();
+      tx.onerror    = () => reject(tx.error);
+    });
+  }
+
+  async function getFile(id) {
+    const db = await open();
+    return new Promise((resolve, reject) => {
+      const tx = db.transaction('files', 'readonly');
+      const req = tx.objectStore('files').get(id);
+      req.onsuccess = () => resolve(req.result);
+      req.onerror   = () => reject(req.error);
+    });
+  }
+
+  async function deleteFile(id) {
+    const db = await open();
+    return new Promise((resolve, reject) => {
+      const tx = db.transaction('files', 'readwrite');
+      tx.objectStore('files').delete(id);
+      tx.oncomplete = () => resolve();
+      tx.onerror    = () => reject(tx.error);
+    });
+  }
+
+  return { saveFile, getFile, deleteFile };
+})();
+
+/* 文件图标映射 */
+function getFileIcon(name) {
+  const ext = (name||'').split('.').pop().toLowerCase();
+  const map = {
+    pdf:'📕', doc:'📘', docx:'📘', xls:'📊', xlsx:'📊',
+    ppt:'📽️', pptx:'📽️', py:'🐍', js:'🟨', ts:'🔷',
+    html:'🌐', css:'🎨', java:'☕', c:'⚙️', cpp:'⚙️',
+    go:'🔵', rs:'🦀', rb:'💎', php:'🐘', json:'📋',
+    xml:'📋', md:'📝', txt:'📄', sql:'🗄️', zip:'📦',
+    rar:'📦', '7z':'📦', png:'🖼️', jpg:'🖼️',
+    jpeg:'🖼️', gif:'🎞️', svg:'🎨', webp:'🖼️', mp4:'🎬',
+  };
+  return map[ext] || '📁';
+}
+function formatSize(bytes) {
+  if (!bytes) return '';
+  if (bytes < 1024) return bytes + ' B';
+  if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
+  return (bytes / 1048576).toFixed(1) + ' MB';
+}
+
+/* ══════════════════════════════════════
    主题切换
 ══════════════════════════════════════ */
 let theme = localStorage.getItem('theme') || 'dark';
@@ -796,6 +945,8 @@ let currentSearch = '';
 let currentType   = 'note';
 let activeTag     = '';
 let detailId      = null;
+let pendingFile   = null;   // 待上传文件
+let fileRemoved   = false;  // 用户是否主动移除了文件
 
 if (items.length === 0) {
   items = [
@@ -862,8 +1013,8 @@ function renderCards() {
     return;
   }
 
-  const typeLabel = {note:'笔记',link:'链接',video:'视频',pdf:'PDF'};
-  const typeIcon  = {note:'📝',link:'🔗',video:'▶',pdf:'📄'};
+  const typeLabel = {note:'笔记',link:'链接',video:'视频',pdf:'PDF',file:'文件'};
+  const typeIcon  = {note:'📝',link:'🔗',video:'▶',pdf:'📄',file:'📁'};
 
   grid.innerHTML = list.map(item => {
     const tags = (item.tags||[]).map(t =>
@@ -871,6 +1022,8 @@ function renderCards() {
     ).join('');
     const urlBlock = item.url
       ? `<div class="card-url">🌐 ${item.url.replace(/^https?:\/\//,'').slice(0,50)}</div>` : '';
+    const fileBlock = item.fileName
+      ? `<div class="card-url">${getFileIcon(item.fileName)} ${item.fileName} · ${formatSize(item.fileSize)}</div>` : '';
     return `<div class="resource-card type-${item.type}" onclick="openDetail(${item.id})">
       <div class="card-top">
         <span class="card-badge badge-${item.type}">${typeIcon[item.type]} ${typeLabel[item.type]}</span>
@@ -882,6 +1035,7 @@ function renderCards() {
       <div class="card-title">${esc(item.title)}</div>
       ${item.desc ? `<div class="card-desc">${esc(item.desc)}</div>` : ''}
       ${urlBlock}
+      ${fileBlock}
       <div class="card-footer">
         <div class="card-tags">${tags}</div>
         <div class="card-date">${item.date}</div>
@@ -897,12 +1051,13 @@ function updateStats() {
   document.getElementById('statTotal').textContent = items.length;
   document.getElementById('statNotes').textContent = n('note');
   document.getElementById('statLinks').textContent = n('link');
-  document.getElementById('statMedia').textContent = n('video') + n('pdf');
+  document.getElementById('statMedia').textContent = n('video') + n('pdf') + n('file');
   document.getElementById('badgeAll').textContent   = items.length;
   document.getElementById('badgeNote').textContent  = n('note');
   document.getElementById('badgeLink').textContent  = n('link');
   document.getElementById('badgeVideo').textContent = n('video');
   document.getElementById('badgePdf').textContent   = n('pdf');
+  document.getElementById('badgeFile').textContent  = n('file');
 }
 
 function renderTags() {
@@ -937,7 +1092,7 @@ function setNav(el, type) {
   currentFilter = 'all';
   document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
   document.querySelectorAll('.filter-chip')[0].classList.add('active');
-  const labels = {all:'全部内容',note:'学习笔记',link:'网站链接',video:'视频资源',pdf:'PDF 文档'};
+  const labels = {all:'全部内容',note:'学习笔记',link:'网站链接',video:'视频资源',pdf:'PDF 文档',file:'上传文件'};
   document.getElementById('pageTitle').textContent = labels[type];
   render();
 }
@@ -985,8 +1140,18 @@ function startEdit(id) {
   document.getElementById('inputUrl').value   = item.url || '';
   document.getElementById('inputDesc').value  = item.desc || '';
   document.getElementById('inputTags').value  = (item.tags||[]).join(' ');
-  const idx = ['note','link','video','pdf'].indexOf(item.type);
-  setType(item.type, document.querySelectorAll('.type-opt')[idx]);
+  const types = ['note','link','video','pdf','file'];
+  const idx = types.indexOf(item.type);
+  setType(item.type, document.querySelectorAll('.type-opt')[idx >= 0 ? idx : 0]);
+  // 恢复文件信息
+  if (item.fileName) {
+    document.getElementById('fileIcon').textContent = getFileIcon(item.fileName);
+    document.getElementById('fileName').textContent = item.fileName;
+    document.getElementById('fileSize').textContent = formatSize(item.fileSize);
+    document.getElementById('fileInfoRow').style.display = 'flex';
+    document.getElementById('uploadZone').style.display = 'none';
+    // pendingFile 保持 null，表示不替换原文件
+  }
   closeDetailModal();
   document.getElementById('addOverlay').classList.add('open');
 }
@@ -1012,9 +1177,11 @@ function resetForm() {
   document.getElementById('inputTags').value  = '';
   currentType = 'note';
   document.querySelectorAll('.type-opt').forEach((o,i) => o.classList.toggle('active', i===0));
+  fileRemoved = false;
+  removeFile();
 }
 
-function saveItem() {
+async function saveItem() {
   const title = document.getElementById('inputTitle').value.trim();
   if (!title) {
     shake(document.getElementById('inputTitle'));
@@ -1023,26 +1190,50 @@ function saveItem() {
   const tags = document.getElementById('inputTags').value.split(/[\s,，]+/).filter(Boolean);
   const eid  = document.getElementById('editingId').value;
 
+  const fileData = pendingFile
+    ? { fileName: pendingFile.name, fileSize: pendingFile.size, fileType: pendingFile.type, fileId: 'f' + Date.now() }
+    : null;
+
   if (eid) {
     const idx = items.findIndex(i => i.id == eid);
     if (idx > -1) {
-      items[idx] = { ...items[idx],
+      const old = items[idx];
+      const updated = { ...old,
         type:  currentType,
         title,
         desc:  document.getElementById('inputDesc').value.trim(),
         url:   document.getElementById('inputUrl').value.trim(),
         tags,
       };
+
+      if (fileData) {
+        // 替换文件：删旧存新
+        if (old.fileId) { try { await FileDB.deleteFile(old.fileId); } catch(e){} }
+        Object.assign(updated, fileData);
+        await FileDB.saveFile(fileData.fileId, pendingFile);
+      } else if (fileRemoved && old.fileId) {
+        // 用户主动移除了文件
+        try { await FileDB.deleteFile(old.fileId); } catch(e){}
+        delete updated.fileName; delete updated.fileSize; delete updated.fileType; delete updated.fileId;
+      }
+      // 否则：没动过文件，保留原文件引用不变
+
+      items[idx] = updated;
     }
     toast('已更新 ✓');
   } else {
-    items.unshift({
+    const newItem = {
       id: Date.now(), type: currentType, title,
       desc: document.getElementById('inputDesc').value.trim(),
       url:  document.getElementById('inputUrl').value.trim(),
       tags,
       date: new Date().toISOString().slice(0,10)
-    });
+    };
+    if (fileData) {
+      Object.assign(newItem, fileData);
+      await FileDB.saveFile(fileData.fileId, pendingFile);
+    }
+    items.unshift(newItem);
     toast('已保存 ✓');
   }
 
@@ -1058,8 +1249,8 @@ function openDetail(id) {
   const item = items.find(i => i.id === id);
   if (!item) return;
   detailId = id;
-  const typeLabel = {note:'笔记',link:'链接',video:'视频',pdf:'PDF'};
-  const typeIcon  = {note:'📝',link:'🔗',video:'▶',pdf:'📄'};
+  const typeLabel = {note:'笔记',link:'链接',video:'视频',pdf:'PDF',file:'文件'};
+  const typeIcon  = {note:'📝',link:'🔗',video:'▶',pdf:'📄',file:'📁'};
 
   document.getElementById('detailBadge').innerHTML =
     `<span class="card-badge badge-${item.type}">${typeIcon[item.type]} ${typeLabel[item.type]}</span>`;
@@ -1071,6 +1262,19 @@ function openDetail(id) {
       <a href="${item.url}" target="_blank" rel="noopener" class="detail-url-link">
         🌐 打开链接 ↗
       </a>
+    </div>`;
+  }
+
+  if (item.fileName) {
+    html += `<div style="margin-bottom:14px">
+      <div class="file-info-row">
+        <span class="file-icon">${getFileIcon(item.fileName)}</span>
+        <span class="file-name">${esc(item.fileName)}</span>
+        <span class="file-size">${formatSize(item.fileSize)}</span>
+      </div>
+      <button class="btn-download" onclick="downloadFile(${item.id})" style="margin-top:8px">
+        ⬇ 下载文件
+      </button>
     </div>`;
   }
 
@@ -1098,10 +1302,80 @@ function closeDetailModal() {
 }
 
 /* ══════════════════════════════════════
+   文件操作
+══════════════════════════════════════ */
+function handleFileSelect(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  if (file.size > 50 * 1024 * 1024) {
+    toast('文件不能超过 50MB');
+    return;
+  }
+  pendingFile = file;
+  fileRemoved = false;
+  showFileInfo(file);
+}
+
+function showFileInfo(file) {
+  document.getElementById('fileIcon').textContent = getFileIcon(file.name);
+  document.getElementById('fileName').textContent = file.name;
+  document.getElementById('fileSize').textContent = formatSize(file.size);
+  document.getElementById('fileInfoRow').style.display = 'flex';
+  document.getElementById('uploadZone').style.display = 'none';
+}
+
+function removeFile() {
+  pendingFile = null;
+  fileRemoved = true;
+  document.getElementById('fileInput').value = '';
+  document.getElementById('fileInfoRow').style.display = 'none';
+  document.getElementById('uploadZone').style.display = '';
+}
+
+async function downloadFile(id) {
+  try {
+    const f = await FileDB.getFile(id);
+    if (!f) { toast('文件不存在'); return; }
+    const blob = new Blob([f.data], { type: f.type });
+    const url  = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = f.name;
+    a.click();
+    URL.revokeObjectURL(url);
+    toast('开始下载 ✓');
+  } catch(e) {
+    toast('下载失败');
+  }
+}
+
+/* 拖拽上传 */
+document.addEventListener('DOMContentLoaded', () => {
+  const zone = document.getElementById('uploadZone');
+  if (!zone) return;
+  ['dragenter','dragover'].forEach(ev => {
+    zone.addEventListener(ev, e => { e.preventDefault(); zone.classList.add('drag-over'); });
+  });
+  ['dragleave','drop'].forEach(ev => {
+    zone.addEventListener(ev, e => { e.preventDefault(); zone.classList.remove('drag-over'); });
+  });
+  zone.addEventListener('drop', e => {
+    const file = e.dataTransfer.files[0];
+    if (!file) return;
+    if (file.size > 50 * 1024 * 1024) { toast('文件不能超过 50MB'); return; }
+    pendingFile = file;
+    fileRemoved = false;
+    showFileInfo(file);
+  });
+});
+
+/* ══════════════════════════════════════
    工具函数
 ══════════════════════════════════════ */
 function deleteItem(id) {
   if (!confirm('确认删除这条内容？')) return;
+  const item = items.find(i => i.id === id);
+  if (item && item.fileId) FileDB.deleteFile(item.fileId).catch(()=>{});
   items = items.filter(i => i.id !== id);
   save();
   render();
