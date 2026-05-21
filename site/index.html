@@ -1,0 +1,1159 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>我的学习空间</title>
+<style>
+/* ══════════════════════════════════════
+   主题变量 — Dark（默认）
+══════════════════════════════════════ */
+:root,
+[data-theme="dark"] {
+  --bg:       #0f1117;
+  --bg2:      #161b27;
+  --bg3:      #1e2535;
+  --bg4:      #252d3d;
+  --border:   rgba(255,255,255,0.07);
+  --border2:  rgba(255,255,255,0.14);
+  --border3:  rgba(255,255,255,0.22);
+  --text:     #e8eaf0;
+  --text2:    #8b90a0;
+  --text3:    #555d72;
+  --overlay:  rgba(0,0,0,0.72);
+  --modal-shadow: 0 24px 64px rgba(0,0,0,0.65);
+  --card-shadow:  0 4px 24px rgba(0,0,0,0.42);
+  --title-grad: linear-gradient(135deg,#e8eaf0 30%,#a78bfa);
+}
+
+/* ══════════════════════════════════════
+   主题变量 — Light
+══════════════════════════════════════ */
+[data-theme="light"] {
+  --bg:       #f5f6fa;
+  --bg2:      #ffffff;
+  --bg3:      #f0f1f5;
+  --bg4:      #e8eaf0;
+  --border:   rgba(0,0,0,0.08);
+  --border2:  rgba(0,0,0,0.14);
+  --border3:  rgba(0,0,0,0.22);
+  --text:     #1a1d2e;
+  --text2:    #5a6078;
+  --text3:    #9196aa;
+  --overlay:  rgba(0,0,0,0.45);
+  --modal-shadow: 0 24px 64px rgba(0,0,0,0.18);
+  --card-shadow:  0 4px 16px rgba(0,0,0,0.08);
+  --title-grad: linear-gradient(135deg,#1a1d2e 30%,#6c8aff);
+}
+
+/* ══════════════════════════════════════
+   重置 & 通用
+══════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  transition: background .25s, color .25s;
+}
+
+body {
+  font-family: -apple-system,'PingFang SC','Microsoft YaHei',sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  transition: background .25s, color .25s;
+}
+
+/* 品牌色 — 不随主题变化 */
+:root {
+  --accent:  #6c8aff;
+  --accent2: #a78bfa;
+  --accent3: #34d399;
+  --amber:   #fbbf24;
+  --red:     #f87171;
+  --pink:    #f472b6;
+  --tag-bg:  rgba(108,138,255,0.12);
+  --tag-txt: #9db4ff;
+  --r:  12px;
+  --rs:  8px;
+}
+
+/* ══════════════════════════════════════
+   Sidebar
+══════════════════════════════════════ */
+.sidebar {
+  width: 248px;
+  flex-shrink: 0;
+  background: var(--bg2);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  transition: background .25s, border-color .25s;
+}
+
+.sidebar-logo {
+  padding: 22px 20px 14px;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -.3px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-dot {
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  box-shadow: 0 0 10px rgba(108,138,255,.5);
+  flex-shrink: 0;
+}
+
+/* 搜索框 */
+.sb-search {
+  margin: 0 12px 14px;
+  position: relative;
+}
+.sb-search input {
+  width: 100%;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: var(--rs);
+  padding: 8px 12px 8px 32px;
+  color: var(--text);
+  font-size: 13px;
+  outline: none;
+  transition: border-color .2s, background .25s;
+  font-family: inherit;
+}
+.sb-search input:focus { border-color: var(--accent); }
+.sb-search input::placeholder { color: var(--text3); }
+.sb-search .si {
+  position: absolute; left: 10px; top: 50%;
+  transform: translateY(-50%);
+  color: var(--text3); font-size: 13px; pointer-events: none;
+}
+
+/* Nav 区块 */
+.sb-section { padding: 0 12px; margin-bottom: 6px; }
+.sb-lbl {
+  font-size: 10px; font-weight: 600;
+  color: var(--text3); text-transform: uppercase;
+  letter-spacing: .08em; padding: 8px 8px 4px;
+}
+
+.nav-item {
+  display: flex; align-items: center; gap: 9px;
+  padding: 8px 10px;
+  border-radius: var(--rs);
+  cursor: pointer;
+  font-size: 13.5px;
+  color: var(--text2);
+  transition: background .15s, color .15s;
+  user-select: none;
+}
+.nav-item:hover { background: var(--bg3); color: var(--text); }
+.nav-item.active { background: rgba(108,138,255,.15); color: var(--accent); }
+.nav-item .ni { font-size: 15px; width: 20px; text-align: center; }
+.nav-item .nbadge {
+  margin-left: auto;
+  background: var(--bg3);
+  color: var(--text3);
+  font-size: 11px;
+  padding: 1px 7px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  transition: background .25s;
+}
+
+/* 标签云 */
+.sb-tags { padding: 0 12px; margin-bottom: 14px; }
+.tag-cloud { display: flex; flex-wrap: wrap; gap: 6px; padding: 4px 8px; }
+.tag-pill {
+  padding: 3px 10px;
+  border-radius: 20px;
+  background: var(--tag-bg);
+  color: var(--tag-txt);
+  font-size: 11.5px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all .15s;
+}
+.tag-pill:hover, .tag-pill.active {
+  border-color: var(--accent);
+  background: rgba(108,138,255,.22);
+}
+
+/* Sidebar 底部 */
+.sb-bottom {
+  margin-top: auto;
+  padding: 14px 12px;
+  border-top: 1px solid var(--border);
+  transition: border-color .25s;
+}
+
+/* 主题切换按钮 */
+.theme-toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  padding: 6px 8px;
+  border-radius: var(--rs);
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  transition: background .25s;
+  cursor: pointer;
+  user-select: none;
+}
+.theme-toggle-label {
+  font-size: 12.5px;
+  color: var(--text2);
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.theme-toggle-track {
+  width: 38px; height: 20px;
+  border-radius: 20px;
+  background: var(--bg4);
+  border: 1px solid var(--border2);
+  position: relative;
+  transition: background .25s;
+  flex-shrink: 0;
+}
+[data-theme="light"] .theme-toggle-track { background: var(--accent); }
+.theme-toggle-thumb {
+  position: absolute;
+  top: 2px; left: 2px;
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: var(--text2);
+  transition: transform .22s cubic-bezier(.4,0,.2,1), background .25s;
+}
+[data-theme="light"] .theme-toggle-thumb {
+  transform: translateX(18px);
+  background: #fff;
+}
+
+.add-btn {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  width: 100%;
+  padding: 10px;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  border: none; border-radius: var(--rs);
+  color: #fff; font-size: 13.5px; font-weight: 600;
+  cursor: pointer;
+  transition: opacity .2s, transform .15s;
+  font-family: inherit;
+}
+.add-btn:hover { opacity: .88; transform: translateY(-1px); }
+.add-btn:active { transform: translateY(0); }
+
+/* ══════════════════════════════════════
+   Main Content
+══════════════════════════════════════ */
+.main {
+  flex: 1;
+  overflow-y: auto;
+  padding: 32px 36px;
+  min-width: 0;
+}
+
+.main-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 26px;
+}
+
+.page-title {
+  font-size: 22px; font-weight: 700; letter-spacing: -.4px;
+}
+.page-title span {
+  background: var(--title-grad);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.header-right { display: flex; align-items: center; gap: 10px; }
+
+.view-toggle {
+  display: flex; gap: 3px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--rs);
+  padding: 3px;
+  transition: background .25s;
+}
+.view-btn {
+  padding: 5px 10px;
+  border-radius: 5px; border: none;
+  background: transparent;
+  color: var(--text2); cursor: pointer;
+  font-size: 14px;
+  transition: all .15s;
+}
+.view-btn.active { background: var(--bg3); color: var(--text); }
+
+/* ── Stats ── */
+.stats-bar {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 26px;
+}
+.stat-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 16px 18px;
+  transition: border-color .2s, background .25s, transform .15s;
+}
+.stat-card:hover { border-color: var(--border2); transform: translateY(-1px); }
+.stat-label { font-size: 12px; color: var(--text3); margin-bottom: 6px; }
+.stat-value { font-size: 26px; font-weight: 700; letter-spacing: -.5px; }
+.sv-blue   { color: var(--accent);  }
+.sv-purple { color: var(--accent2); }
+.sv-green  { color: var(--accent3); }
+.sv-amber  { color: var(--amber);   }
+.stat-sub  { font-size: 11px; color: var(--text3); margin-top: 4px; }
+
+/* ── Filter Bar ── */
+.filter-bar { display: flex; gap: 8px; margin-bottom: 18px; flex-wrap: wrap; }
+.filter-chip {
+  padding: 5px 14px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text2);
+  font-size: 12.5px;
+  cursor: pointer;
+  transition: all .15s;
+  font-family: inherit;
+}
+.filter-chip:hover { border-color: var(--border2); color: var(--text); }
+.filter-chip.active {
+  border-color: var(--accent);
+  background: rgba(108,138,255,.12);
+  color: var(--accent);
+}
+
+/* ── Section Label ── */
+.section-label {
+  font-size: 11px; font-weight: 600;
+  color: var(--text3); text-transform: uppercase;
+  letter-spacing: .08em;
+  margin-bottom: 14px;
+  display: flex; align-items: center; gap: 10px;
+}
+.section-label::after {
+  content: ''; flex: 1; height: 1px; background: var(--border);
+}
+
+/* ── Card Grid ── */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 14px;
+}
+.card-grid.list-view { grid-template-columns: 1fr; }
+
+.resource-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 18px;
+  cursor: pointer;
+  transition: border-color .2s, transform .2s, box-shadow .2s, background .25s;
+  position: relative;
+  overflow: hidden;
+}
+.resource-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 2.5px;
+  opacity: 0; transition: opacity .2s;
+}
+.resource-card.type-link::before  { background: linear-gradient(90deg,var(--accent),var(--accent2)); }
+.resource-card.type-note::before  { background: linear-gradient(90deg,var(--accent3),#059669); }
+.resource-card.type-video::before { background: linear-gradient(90deg,var(--red),var(--pink)); }
+.resource-card.type-pdf::before   { background: linear-gradient(90deg,var(--amber),#f59e0b); }
+
+.resource-card:hover {
+  border-color: var(--border2);
+  transform: translateY(-3px);
+  box-shadow: var(--card-shadow);
+}
+.resource-card:hover::before { opacity: 1; }
+
+.card-top {
+  display: flex; align-items: flex-start;
+  justify-content: space-between; margin-bottom: 10px;
+}
+
+.card-badge {
+  display: flex; align-items: center; gap: 5px;
+  font-size: 11px; padding: 3px 9px;
+  border-radius: 20px; font-weight: 500;
+}
+.badge-link  { background: rgba(108,138,255,.15); color: var(--accent);  }
+.badge-note  { background: rgba(52,211,153,.15);  color: var(--accent3); }
+.badge-video { background: rgba(248,113,113,.15); color: var(--red);     }
+.badge-pdf   { background: rgba(251,191,36,.15);  color: var(--amber);   }
+
+.card-actions { display: flex; gap: 4px; }
+.card-action-btn {
+  width: 26px; height: 26px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 6px; color: var(--text3);
+  transition: all .15s; font-size: 13px; cursor: pointer;
+}
+.card-action-btn:hover { background: var(--bg3); color: var(--text); }
+
+.card-title {
+  font-size: 14.5px; font-weight: 600; color: var(--text);
+  margin-bottom: 6px; line-height: 1.45;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+.card-desc {
+  font-size: 13px; color: var(--text2); line-height: 1.65;
+  display: -webkit-box;
+  -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+  margin-bottom: 12px;
+}
+.card-url {
+  font-size: 11.5px; color: var(--text3); margin-bottom: 12px;
+  display: flex; align-items: center; gap: 4px;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.card-footer {
+  display: flex; align-items: center; justify-content: space-between;
+  padding-top: 10px; border-top: 1px solid var(--border);
+  transition: border-color .25s;
+}
+.card-tags { display: flex; flex-wrap: wrap; gap: 5px; }
+.card-tag {
+  padding: 2px 8px; border-radius: 20px;
+  background: var(--tag-bg); color: var(--tag-txt); font-size: 11px;
+  cursor: pointer; transition: background .15s;
+}
+.card-tag:hover { background: rgba(108,138,255,.25); }
+.card-date { font-size: 11px; color: var(--text3); white-space: nowrap; }
+
+/* ── Empty ── */
+.empty-state {
+  text-align: center; padding: 64px 20px;
+  grid-column: 1 / -1;
+}
+.empty-icon { font-size: 48px; margin-bottom: 12px; }
+.empty-state p { font-size: 14px; margin-bottom: 18px; color: var(--text2); }
+
+/* ══════════════════════════════════════
+   Modal
+══════════════════════════════════════ */
+.modal-overlay {
+  position: fixed; inset: 0;
+  background: var(--overlay);
+  backdrop-filter: blur(5px);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 200;
+  opacity: 0; pointer-events: none;
+  transition: opacity .22s;
+}
+.modal-overlay.open { opacity: 1; pointer-events: all; }
+
+.modal {
+  background: var(--bg2);
+  border: 1px solid var(--border2);
+  border-radius: 18px;
+  padding: 28px;
+  width: 530px; max-width: 93vw; max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: var(--modal-shadow);
+  transform: translateY(14px) scale(.98);
+  transition: transform .22s cubic-bezier(.4,0,.2,1), background .25s;
+}
+.modal-overlay.open .modal { transform: translateY(0) scale(1); }
+
+.modal-header {
+  font-size: 16px; font-weight: 700; margin-bottom: 22px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.modal-close {
+  width: 28px; height: 28px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 7px; cursor: pointer;
+  color: var(--text2); background: var(--bg3);
+  font-size: 14px; transition: all .15s;
+}
+.modal-close:hover { color: var(--text); }
+
+.form-group { margin-bottom: 16px; }
+.form-label {
+  font-size: 11px; font-weight: 600; color: var(--text2);
+  margin-bottom: 7px; text-transform: uppercase; letter-spacing: .06em;
+}
+.form-input, .form-textarea {
+  width: 100%;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: var(--rs);
+  padding: 9px 12px;
+  color: var(--text); font-size: 13.5px; font-family: inherit;
+  outline: none; transition: border-color .2s, background .25s;
+}
+.form-input:focus, .form-textarea:focus { border-color: var(--accent); }
+.form-input::placeholder, .form-textarea::placeholder { color: var(--text3); }
+.form-textarea { resize: vertical; min-height: 90px; line-height: 1.65; }
+
+.type-grid {
+  display: grid; grid-template-columns: repeat(4,1fr); gap: 8px;
+}
+.type-opt {
+  padding: 11px 6px; border-radius: var(--rs);
+  border: 1px solid var(--border);
+  background: var(--bg3); color: var(--text2);
+  font-size: 12px; text-align: center;
+  cursor: pointer; transition: all .15s; font-family: inherit;
+}
+.type-opt .ti { font-size: 20px; display: block; margin-bottom: 4px; }
+.type-opt.active {
+  border-color: var(--accent);
+  background: rgba(108,138,255,.12);
+  color: var(--accent);
+}
+
+.modal-footer {
+  display: flex; gap: 10px; justify-content: flex-end;
+  margin-top: 22px; padding-top: 16px;
+  border-top: 1px solid var(--border);
+  transition: border-color .25s;
+}
+
+.btn-cancel {
+  padding: 9px 18px; border-radius: var(--rs);
+  border: 1px solid var(--border);
+  background: transparent; color: var(--text2);
+  font-size: 13px; cursor: pointer;
+  transition: all .15s; font-family: inherit;
+}
+.btn-cancel:hover { background: var(--bg3); color: var(--text); }
+
+.btn-save {
+  padding: 9px 22px; border-radius: var(--rs); border: none;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  color: #fff; font-size: 13px; font-weight: 600;
+  cursor: pointer; transition: opacity .2s; font-family: inherit;
+}
+.btn-save:hover { opacity: .86; }
+
+/* ── Detail Modal ── */
+.detail-url-link {
+  display: inline-flex; align-items: center; gap: 6px;
+  color: var(--accent); font-size: 13px; text-decoration: none;
+  padding: 7px 14px;
+  background: rgba(108,138,255,.1);
+  border-radius: var(--rs); border: 1px solid rgba(108,138,255,.25);
+  transition: background .15s;
+}
+.detail-url-link:hover { background: rgba(108,138,255,.2); }
+.detail-desc-block {
+  background: var(--bg3); border-radius: var(--rs);
+  padding: 14px 16px; font-size: 13.5px;
+  color: var(--text2); line-height: 1.75;
+  border: 1px solid var(--border);
+  white-space: pre-wrap;
+  transition: background .25s;
+}
+.detail-tags { display: flex; flex-wrap: wrap; gap: 7px; }
+.detail-tag {
+  padding: 4px 12px; border-radius: 20px;
+  background: var(--tag-bg); color: var(--tag-txt); font-size: 12px;
+}
+
+/* ── Toast ── */
+.toast {
+  position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(12px);
+  background: var(--bg3); border: 1px solid var(--border2);
+  border-radius: 24px; padding: 9px 20px;
+  font-size: 13px; color: var(--text); white-space: nowrap;
+  box-shadow: var(--card-shadow);
+  opacity: 0; transition: opacity .2s, transform .2s;
+  z-index: 300; pointer-events: none;
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* ── Responsive ── */
+@media (max-width: 800px) {
+  .sidebar { display: none; }
+  .main { padding: 20px 16px; }
+  .stats-bar { grid-template-columns: repeat(2,1fr); }
+  .card-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════ SIDEBAR ═══════════ -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-dot"></div>
+    我的学习空间
+  </div>
+
+  <div class="sb-search">
+    <span class="si">🔍</span>
+    <input type="text" placeholder="搜索笔记、链接… (Ctrl+K)" id="globalSearch" oninput="handleSearch(this.value)">
+  </div>
+
+  <div class="sb-section">
+    <div class="sb-lbl">导航</div>
+    <div class="nav-item active" onclick="setNav(this,'all')">
+      <span class="ni">✦</span> 全部内容
+      <span class="nbadge" id="badgeAll">0</span>
+    </div>
+    <div class="nav-item" onclick="setNav(this,'note')">
+      <span class="ni">📝</span> 学习笔记
+      <span class="nbadge" id="badgeNote">0</span>
+    </div>
+    <div class="nav-item" onclick="setNav(this,'link')">
+      <span class="ni">🔗</span> 网站链接
+      <span class="nbadge" id="badgeLink">0</span>
+    </div>
+    <div class="nav-item" onclick="setNav(this,'video')">
+      <span class="ni">▶</span> 视频资源
+      <span class="nbadge" id="badgeVideo">0</span>
+    </div>
+    <div class="nav-item" onclick="setNav(this,'pdf')">
+      <span class="ni">📄</span> PDF 文档
+      <span class="nbadge" id="badgePdf">0</span>
+    </div>
+  </div>
+
+  <div class="sb-tags">
+    <div class="sb-lbl" style="padding:8px 8px 4px">标签</div>
+    <div class="tag-cloud" id="tagCloud"></div>
+  </div>
+
+  <div class="sb-bottom">
+    <!-- 主题切换 -->
+    <div class="theme-toggle-row" onclick="toggleTheme()" title="切换亮/暗模式">
+      <div class="theme-toggle-label">
+        <span id="themeIcon">🌙</span>
+        <span id="themeLabel">深色模式</span>
+      </div>
+      <div class="theme-toggle-track">
+        <div class="theme-toggle-thumb"></div>
+      </div>
+    </div>
+    <button class="add-btn" onclick="openAddModal()">
+      ＋ 添加新内容
+    </button>
+  </div>
+</aside>
+
+<!-- ═══════════ MAIN ═══════════ -->
+<main class="main">
+  <div class="main-header">
+    <div class="page-title"><span id="pageTitle">全部内容</span></div>
+    <div class="header-right">
+      <div class="view-toggle">
+        <button class="view-btn active" onclick="setView('grid',this)" title="网格视图">⊞</button>
+        <button class="view-btn" onclick="setView('list',this)" title="列表视图">☰</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats-bar">
+    <div class="stat-card">
+      <div class="stat-label">全部资源</div>
+      <div class="stat-value sv-blue" id="statTotal">0</div>
+      <div class="stat-sub">条内容</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">学习笔记</div>
+      <div class="stat-value sv-purple" id="statNotes">0</div>
+      <div class="stat-sub">篇感悟</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">收藏链接</div>
+      <div class="stat-value sv-green" id="statLinks">0</div>
+      <div class="stat-sub">个网站</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">视频 & PDF</div>
+      <div class="stat-value sv-amber" id="statMedia">0</div>
+      <div class="stat-sub">个文件</div>
+    </div>
+  </div>
+
+  <!-- Filter -->
+  <div class="filter-bar">
+    <button class="filter-chip active" onclick="setFilter('all',this)">全部</button>
+    <button class="filter-chip" onclick="setFilter('note',this)">📝 笔记</button>
+    <button class="filter-chip" onclick="setFilter('link',this)">🔗 链接</button>
+    <button class="filter-chip" onclick="setFilter('video',this)">▶ 视频</button>
+    <button class="filter-chip" onclick="setFilter('pdf',this)">📄 PDF</button>
+  </div>
+
+  <div class="section-label" id="sectionLabel">最近添加</div>
+  <div class="card-grid" id="cardGrid"></div>
+</main>
+
+<!-- ═══════════ ADD / EDIT MODAL ═══════════ -->
+<div class="modal-overlay" id="addOverlay" onclick="closeOnBg(event,'addOverlay')">
+  <div class="modal">
+    <div class="modal-header">
+      <span id="modalTitleText">添加新内容</span>
+      <div class="modal-close" onclick="closeAddModal()">✕</div>
+    </div>
+
+    <div class="form-group">
+      <div class="form-label">内容类型</div>
+      <div class="type-grid">
+        <div class="type-opt active" onclick="setType('note',this)"><span class="ti">📝</span>笔记</div>
+        <div class="type-opt" onclick="setType('link',this)"><span class="ti">🔗</span>链接</div>
+        <div class="type-opt" onclick="setType('video',this)"><span class="ti">▶</span>视频</div>
+        <div class="type-opt" onclick="setType('pdf',this)"><span class="ti">📄</span>PDF</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="form-label">标题 *</div>
+      <input class="form-input" id="inputTitle" placeholder="给这条内容起个名字…">
+    </div>
+    <div class="form-group">
+      <div class="form-label">链接地址</div>
+      <input class="form-input" id="inputUrl" placeholder="https://…（可选）">
+    </div>
+    <div class="form-group">
+      <div class="form-label">内容描述 / 学习感悟</div>
+      <textarea class="form-textarea" id="inputDesc" placeholder="记下你的学习感悟、要点摘要…"></textarea>
+    </div>
+    <div class="form-group">
+      <div class="form-label">标签（空格或逗号分隔）</div>
+      <input class="form-input" id="inputTags" placeholder="前端  React  CSS  算法">
+    </div>
+    <input type="hidden" id="editingId">
+
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeAddModal()">取消</button>
+      <button class="btn-save" onclick="saveItem()">保存</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ DETAIL MODAL ═══════════ -->
+<div class="modal-overlay" id="detailOverlay" onclick="closeOnBg(event,'detailOverlay')">
+  <div class="modal">
+    <div class="modal-header">
+      <span id="detailBadge"></span>
+      <div class="modal-close" onclick="closeDetailModal()">✕</div>
+    </div>
+    <div id="detailContent"></div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeDetailModal()">关闭</button>
+      <button class="btn-save" onclick="editCurrentDetail()">编辑</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+/* ══════════════════════════════════════
+   主题切换
+══════════════════════════════════════ */
+let theme = localStorage.getItem('theme') || 'dark';
+applyTheme(theme);
+
+function applyTheme(t) {
+  theme = t;
+  document.documentElement.setAttribute('data-theme', t);
+  document.getElementById('themeIcon').textContent  = t === 'dark' ? '🌙' : '☀️';
+  document.getElementById('themeLabel').textContent = t === 'dark' ? '深色模式' : '浅色模式';
+  localStorage.setItem('theme', t);
+}
+
+function toggleTheme() {
+  applyTheme(theme === 'dark' ? 'light' : 'dark');
+}
+
+/* ══════════════════════════════════════
+   数据
+══════════════════════════════════════ */
+let items = JSON.parse(localStorage.getItem('learningItems') || '[]');
+let currentFilter = 'all';
+let currentNav    = 'all';
+let currentView   = 'grid';
+let currentSearch = '';
+let currentType   = 'note';
+let activeTag     = '';
+let detailId      = null;
+
+if (items.length === 0) {
+  items = [
+    { id:1, type:'note',  title:'关于 CSS Grid 的学习心得',
+      desc:'今天深入研究了 CSS Grid 布局，发现 grid-template-areas 非常直观，特别是在做响应式布局时比 Flexbox 更加清晰。关键是理解"格子"概念，先画草图再写代码效率翻倍。',
+      url:'', tags:['CSS','Grid','前端'], date:'2026-05-20' },
+    { id:2, type:'link',  title:'MDN Web Docs — 最权威的前端文档',
+      desc:'浏览器兼容性、API 参考一应俱全，遇到问题先查这里。',
+      url:'https://developer.mozilla.org', tags:['文档','参考','前端'], date:'2026-05-19' },
+    { id:3, type:'video', title:'《Vue 3 从入门到精通》完整课程',
+      desc:'讲解非常细致，特别是 Composition API 部分，建议先跟着手敲一遍再做项目。',
+      url:'https://www.bilibili.com', tags:['Vue','前端','视频'], date:'2026-05-18' },
+    { id:4, type:'pdf',   title:'《JavaScript 高级程序设计》第四版',
+      desc:'红宝书，JavaScript 开发者必读。第 8 章对象、类和面向对象编程是重点，反复研读。',
+      url:'', tags:['JavaScript','书籍','进阶'], date:'2026-05-17' },
+    { id:5, type:'link',  title:'GitHub — 代码托管与开源社区',
+      desc:'不只是存代码，要学会用 GitHub Actions 做 CI/CD，用 Issues 管理项目。',
+      url:'https://github.com', tags:['工具','开源','Git'], date:'2026-05-16' },
+    { id:6, type:'note',  title:'React Hooks 使用规律总结',
+      desc:'记住两条规则：只在顶层调用 Hooks；只在 React 函数组件里调用。useEffect 的依赖数组是关键，要认真思考依赖关系避免无限循环。',
+      url:'', tags:['React','Hooks','前端'], date:'2026-05-15' },
+    { id:7, type:'link',  title:'Tailwind CSS — 实用类优先的 CSS 框架',
+      desc:'告别命名困扰，直接在 HTML 里写样式。配合 JIT 模式文件体积极小，推荐所有项目使用。',
+      url:'https://tailwindcss.com', tags:['CSS','框架','前端'], date:'2026-05-14' },
+    { id:8, type:'pdf',   title:'《深入理解计算机系统》CSAPP',
+      desc:'程序员的必读圣经，从汇编、内存到操作系统原理。建议反复阅读，每次都有新收获。',
+      url:'', tags:['计算机基础','书籍','系统'], date:'2026-05-13' },
+  ];
+  save();
+}
+
+function save() { localStorage.setItem('learningItems', JSON.stringify(items)); }
+
+/* ══════════════════════════════════════
+   渲染
+══════════════════════════════════════ */
+function filtered() {
+  let r = [...items];
+  if (currentNav    !== 'all') r = r.filter(i => i.type === currentNav);
+  if (currentFilter !== 'all') r = r.filter(i => i.type === currentFilter);
+  if (activeTag)                r = r.filter(i => i.tags && i.tags.includes(activeTag));
+  if (currentSearch) {
+    const q = currentSearch.toLowerCase();
+    r = r.filter(i =>
+      i.title.toLowerCase().includes(q) ||
+      (i.desc  && i.desc.toLowerCase().includes(q)) ||
+      (i.tags  && i.tags.some(t => t.toLowerCase().includes(q)))
+    );
+  }
+  return r.sort((a,b) => b.id - a.id);
+}
+
+function renderCards() {
+  const grid = document.getElementById('cardGrid');
+  const list = filtered();
+
+  if (!list.length) {
+    grid.innerHTML = `<div class="empty-state">
+      <div class="empty-icon">✦</div>
+      <p>还没有内容，点击「添加新内容」开始记录吧</p>
+      <button class="btn-save" onclick="openAddModal()">＋ 添加第一条</button>
+    </div>`;
+    grid.className = 'card-grid';
+    return;
+  }
+
+  const typeLabel = {note:'笔记',link:'链接',video:'视频',pdf:'PDF'};
+  const typeIcon  = {note:'📝',link:'🔗',video:'▶',pdf:'📄'};
+
+  grid.innerHTML = list.map(item => {
+    const tags = (item.tags||[]).map(t =>
+      `<span class="card-tag" onclick="event.stopPropagation();setActiveTag('${t}')">${t}</span>`
+    ).join('');
+    const urlBlock = item.url
+      ? `<div class="card-url">🌐 ${item.url.replace(/^https?:\/\//,'').slice(0,50)}</div>` : '';
+    return `<div class="resource-card type-${item.type}" onclick="openDetail(${item.id})">
+      <div class="card-top">
+        <span class="card-badge badge-${item.type}">${typeIcon[item.type]} ${typeLabel[item.type]}</span>
+        <div class="card-actions">
+          <span class="card-action-btn" onclick="event.stopPropagation();startEdit(${item.id})" title="编辑">✏️</span>
+          <span class="card-action-btn" onclick="event.stopPropagation();deleteItem(${item.id})" title="删除">✕</span>
+        </div>
+      </div>
+      <div class="card-title">${esc(item.title)}</div>
+      ${item.desc ? `<div class="card-desc">${esc(item.desc)}</div>` : ''}
+      ${urlBlock}
+      <div class="card-footer">
+        <div class="card-tags">${tags}</div>
+        <div class="card-date">${item.date}</div>
+      </div>
+    </div>`;
+  }).join('');
+
+  grid.className = 'card-grid' + (currentView==='list'?' list-view':'');
+}
+
+function updateStats() {
+  const n = t => items.filter(i => i.type === t).length;
+  document.getElementById('statTotal').textContent = items.length;
+  document.getElementById('statNotes').textContent = n('note');
+  document.getElementById('statLinks').textContent = n('link');
+  document.getElementById('statMedia').textContent = n('video') + n('pdf');
+  document.getElementById('badgeAll').textContent   = items.length;
+  document.getElementById('badgeNote').textContent  = n('note');
+  document.getElementById('badgeLink').textContent  = n('link');
+  document.getElementById('badgeVideo').textContent = n('video');
+  document.getElementById('badgePdf').textContent   = n('pdf');
+}
+
+function renderTags() {
+  const map = {};
+  items.forEach(i => (i.tags||[]).forEach(t => map[t] = (map[t]||0)+1));
+  const sorted = Object.entries(map).sort((a,b)=>b[1]-a[1]).slice(0,18);
+  document.getElementById('tagCloud').innerHTML = sorted.map(([t]) =>
+    `<span class="tag-pill${activeTag===t?' active':''}" onclick="setActiveTag('${t}')">${t}</span>`
+  ).join('');
+}
+
+function render() {
+  renderCards();
+  updateStats();
+  renderTags();
+  const cnt = filtered().length;
+  document.getElementById('sectionLabel').textContent =
+    currentSearch ? `搜索结果 (${cnt} 条)` :
+    activeTag     ? `标签：${activeTag} (${cnt} 条)` :
+    `最近添加（共 ${cnt} 条）`;
+}
+
+render();
+
+/* ══════════════════════════════════════
+   导航 & 过滤
+══════════════════════════════════════ */
+function setNav(el, type) {
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  el.classList.add('active');
+  currentNav = type;
+  currentFilter = 'all';
+  document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+  document.querySelectorAll('.filter-chip')[0].classList.add('active');
+  const labels = {all:'全部内容',note:'学习笔记',link:'网站链接',video:'视频资源',pdf:'PDF 文档'};
+  document.getElementById('pageTitle').textContent = labels[type];
+  render();
+}
+
+function setFilter(type, el) {
+  document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  currentFilter = type;
+  render();
+}
+
+function setView(type, el) {
+  document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  currentView = type;
+  render();
+}
+
+function handleSearch(v) { currentSearch = v; render(); }
+
+function setActiveTag(tag) {
+  activeTag = activeTag === tag ? '' : tag;
+  renderTags();
+  render();
+}
+
+/* ══════════════════════════════════════
+   添加 / 编辑 Modal
+══════════════════════════════════════ */
+function openAddModal() {
+  resetForm();
+  document.getElementById('editingId').value = '';
+  document.getElementById('modalTitleText').textContent = '添加新内容';
+  document.getElementById('addOverlay').classList.add('open');
+  setTimeout(() => document.getElementById('inputTitle').focus(), 80);
+}
+
+function startEdit(id) {
+  const item = items.find(i => i.id === id);
+  if (!item) return;
+  resetForm();
+  document.getElementById('editingId').value = id;
+  document.getElementById('modalTitleText').textContent = '编辑内容';
+  document.getElementById('inputTitle').value = item.title;
+  document.getElementById('inputUrl').value   = item.url || '';
+  document.getElementById('inputDesc').value  = item.desc || '';
+  document.getElementById('inputTags').value  = (item.tags||[]).join(' ');
+  const idx = ['note','link','video','pdf'].indexOf(item.type);
+  setType(item.type, document.querySelectorAll('.type-opt')[idx]);
+  closeDetailModal();
+  document.getElementById('addOverlay').classList.add('open');
+}
+
+function editCurrentDetail() {
+  if (detailId) startEdit(detailId);
+}
+
+function closeAddModal() {
+  document.getElementById('addOverlay').classList.remove('open');
+}
+
+function setType(type, el) {
+  document.querySelectorAll('.type-opt').forEach(o => o.classList.remove('active'));
+  el.classList.add('active');
+  currentType = type;
+}
+
+function resetForm() {
+  document.getElementById('inputTitle').value = '';
+  document.getElementById('inputUrl').value   = '';
+  document.getElementById('inputDesc').value  = '';
+  document.getElementById('inputTags').value  = '';
+  currentType = 'note';
+  document.querySelectorAll('.type-opt').forEach((o,i) => o.classList.toggle('active', i===0));
+}
+
+function saveItem() {
+  const title = document.getElementById('inputTitle').value.trim();
+  if (!title) {
+    shake(document.getElementById('inputTitle'));
+    return;
+  }
+  const tags = document.getElementById('inputTags').value.split(/[\s,，]+/).filter(Boolean);
+  const eid  = document.getElementById('editingId').value;
+
+  if (eid) {
+    const idx = items.findIndex(i => i.id == eid);
+    if (idx > -1) {
+      items[idx] = { ...items[idx],
+        type:  currentType,
+        title,
+        desc:  document.getElementById('inputDesc').value.trim(),
+        url:   document.getElementById('inputUrl').value.trim(),
+        tags,
+      };
+    }
+    toast('已更新 ✓');
+  } else {
+    items.unshift({
+      id: Date.now(), type: currentType, title,
+      desc: document.getElementById('inputDesc').value.trim(),
+      url:  document.getElementById('inputUrl').value.trim(),
+      tags,
+      date: new Date().toISOString().slice(0,10)
+    });
+    toast('已保存 ✓');
+  }
+
+  save();
+  closeAddModal();
+  render();
+}
+
+/* ══════════════════════════════════════
+   详情 Modal
+══════════════════════════════════════ */
+function openDetail(id) {
+  const item = items.find(i => i.id === id);
+  if (!item) return;
+  detailId = id;
+  const typeLabel = {note:'笔记',link:'链接',video:'视频',pdf:'PDF'};
+  const typeIcon  = {note:'📝',link:'🔗',video:'▶',pdf:'📄'};
+
+  document.getElementById('detailBadge').innerHTML =
+    `<span class="card-badge badge-${item.type}">${typeIcon[item.type]} ${typeLabel[item.type]}</span>`;
+
+  let html = `<h2 style="font-size:17px;font-weight:700;line-height:1.45;margin-bottom:14px;color:var(--text)">${esc(item.title)}</h2>`;
+
+  if (item.url) {
+    html += `<div style="margin-bottom:14px">
+      <a href="${item.url}" target="_blank" rel="noopener" class="detail-url-link">
+        🌐 打开链接 ↗
+      </a>
+    </div>`;
+  }
+
+  if (item.desc) {
+    html += `<div style="margin-bottom:14px">
+      <div class="form-label" style="margin-bottom:8px">内容 / 感悟</div>
+      <div class="detail-desc-block">${esc(item.desc)}</div>
+    </div>`;
+  }
+
+  if (item.tags && item.tags.length) {
+    html += `<div>
+      <div class="form-label" style="margin-bottom:8px">标签</div>
+      <div class="detail-tags">${item.tags.map(t=>`<span class="detail-tag">${esc(t)}</span>`).join('')}</div>
+    </div>`;
+  }
+
+  html += `<p style="margin-top:14px;font-size:11px;color:var(--text3)">添加于 ${item.date}</p>`;
+  document.getElementById('detailContent').innerHTML = html;
+  document.getElementById('detailOverlay').classList.add('open');
+}
+
+function closeDetailModal() {
+  document.getElementById('detailOverlay').classList.remove('open');
+}
+
+/* ══════════════════════════════════════
+   工具函数
+══════════════════════════════════════ */
+function deleteItem(id) {
+  if (!confirm('确认删除这条内容？')) return;
+  items = items.filter(i => i.id !== id);
+  save();
+  render();
+  toast('已删除');
+}
+
+function closeOnBg(e, id) {
+  if (e.target === document.getElementById(id))
+    document.getElementById(id).classList.remove('open');
+}
+
+function esc(s) {
+  return String(s)
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;');
+}
+
+function shake(el) {
+  el.style.borderColor = 'var(--red)';
+  el.animate([
+    {transform:'translateX(0)'},{transform:'translateX(-5px)'},
+    {transform:'translateX(5px)'},{transform:'translateX(0)'}
+  ], {duration:250, easing:'ease-in-out'});
+  setTimeout(() => el.style.borderColor = '', 1400);
+}
+
+let toastTimer;
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+/* 键盘快捷键 */
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    closeAddModal();
+    closeDetailModal();
+  }
+  if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+    e.preventDefault();
+    document.getElementById('globalSearch').focus();
+  }
+  if ((e.metaKey || e.ctrlKey) && e.key === 'n') {
+    e.preventDefault();
+    openAddModal();
+  }
+});
+</script>
+</body>
+</html>
