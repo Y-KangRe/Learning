@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>晓风残月</title>
+<title>晓风残月 · 学习空间</title>
 <style>
-/* ══════════════════════════════════════
+/* ═════════════════════════════════════
    主题变量 — Dark（默认）
 ══════════════════════════════════════ */
 :root,
@@ -26,7 +26,7 @@
   --title-grad: linear-gradient(135deg,#e8eaf0 30%,#a78bfa);
 }
 
-/* ══════════════════════════════════════
+/* ═════════════════════════════════════
    主题变量 — Light
 ══════════════════════════════════════ */
 [data-theme="light"] {
@@ -46,7 +46,7 @@
   --title-grad: linear-gradient(135deg,#1a1d2e 30%,#6c8aff);
 }
 
-/* ══════════════════════════════════════
+/* ═════════════════════════════════════
    重置 & 通用
 ══════════════════════════════════════ */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -60,8 +60,8 @@ body {
   background: var(--bg);
   color: var(--text);
   min-height: 100vh;
-  display: flex;
   transition: background .25s, color .25s;
+  overflow-x: hidden;
 }
 
 /* 品牌色 — 不随主题变化 */
@@ -78,18 +78,18 @@ body {
   --rs:  8px;
 }
 
-/* ══════════════════════════════════════
-   Sidebar
+/* ═════════════════════════════════════
+   SIDEBAR
 ══════════════════════════════════════ */
 .sidebar {
   width: 248px;
   flex-shrink: 0;
   background: var(--bg2);
-  border-right: 1px solid var(--border);
+  border-right:1px solid var(--border);
   display: flex;
   flex-direction: column;
   position: sticky;
-  top: 0;
+  top:0;
   height: 100vh;
   overflow-y: auto;
   transition: background .25s, border-color .25s;
@@ -122,7 +122,7 @@ body {
 .sb-search input {
   width: 100%;
   background: var(--bg3);
-  border: 1px solid var(--border);
+  border:1px solid var(--border);
   border-radius: var(--rs);
   padding: 8px 12px 8px 32px;
   color: var(--text);
@@ -167,7 +167,7 @@ body {
   font-size: 11px;
   padding: 1px 7px;
   border-radius: 20px;
-  border: 1px solid var(--border);
+  border:1px solid var(--border);
   transition: background .25s;
 }
 
@@ -181,7 +181,7 @@ body {
   color: var(--tag-txt);
   font-size: 11.5px;
   cursor: pointer;
-  border: 1px solid transparent;
+  border:1px solid transparent;
   transition: all .15s;
 }
 .tag-pill:hover, .tag-pill.active {
@@ -206,7 +206,7 @@ body {
   padding: 6px 8px;
   border-radius: var(--rs);
   background: var(--bg3);
-  border: 1px solid var(--border);
+  border:1px solid var(--border);
   transition: background .25s;
   cursor: pointer;
   user-select: none;
@@ -255,41 +255,57 @@ body {
 .add-btn:hover { opacity: .88; transform: translateY(-1px); }
 .add-btn:active { transform: translateY(0); }
 
-/* ══════════════════════════════════════
-   欢迎页 — 晓风残月
+/* ═════════════════════════════════════
+   欢迎页 — 晓风残月（全屏首屏）v2
 ══════════════════════════════════════ */
-.landing-scene {
-  position: relative;
-  width: 100%;
-  min-height: calc(100vh - 64px);
-  overflow: hidden;
-  border-radius: var(--r);
-  margin-bottom: 0;
+.landing-page {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   background: linear-gradient(180deg,
-    #1a2a6c 0%,
-    #2d5a87 18%,
-    #5b8cb8 35%,
-    #9bb5ce 50%,
-    #d4a4a8 65%,
-    #e8c4b8 78%,
-    #b8c8a8 88%,
+    #0c1828 0%,
+    #152238 10%,
+    #1a3a5c 22%,
+    #2d5a8c 38%,
+    #5b8cb8 52%,
+    #9bb5ce 62%,
+    #d4a4a8 72%,
+    #e8c4b8 82%,
+    #b8c8a8 92%,
     #6a9a8a 100%
   );
+  transition: opacity 0.8s cubic-bezier(.4,0,.2,1),
+              visibility 0.8s;
+  overflow: hidden;
+}
+.landing-page.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* 星空层 */
+.star-field {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
 }
 
 /* 水面区域 */
-.landing-scene::after {
+.landing-page::after {
   content: '';
   position: absolute;
   bottom: 0; left: 0; right: 0;
-  height: 28%;
+  height: 30%;
   background: linear-gradient(180deg,
     rgba(106,154,138,0) 0%,
-    rgba(90,140,125,0.55) 25%,
-    rgba(72,120,105,0.85) 60%,
+    rgba(90,140,125,0.5) 25%,
+    rgba(72,120,105,0.82) 60%,
     rgba(58,100,88,0.95) 100%
   );
   z-index: 2;
@@ -299,7 +315,7 @@ body {
 .water-ripple {
   position: absolute;
   bottom: 0; left: 0; right: 0;
-  height: 28%;
+  height: 30%;
   z-index: 3;
   opacity: 0.35;
   pointer-events: none;
@@ -311,43 +327,70 @@ body {
   top: 0;
   z-index: 5;
   pointer-events: none;
-  opacity: 0.65;
+  opacity: 0.6;
+  transform-origin: top center;
 }
-.willow-left  { left: -10px; width: 280px; height: 100%; }
-.willow-right { right: -10px; width: 280px; height: 100%; }
+.willow-left  { left: -10px; width: 260px; height: 100%; animation: willowSwayL 8s ease-in-out infinite; }
+.willow-right { right: -10px; width: 260px; height: 100%; animation: willowSwayR 9s ease-in-out infinite; }
+@keyframes willowSwayL {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(1.5deg); }
+}
+@keyframes willowSwayR {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(-1.2deg); }
+}
 
 /* 残月 */
 .crescent-moon {
   position: absolute;
-  top: 10%;
-  right: 18%;
+  top: 8%;
+  right: 15%;
   z-index: 4;
   pointer-events: none;
-  filter: drop-shadow(0 0 30px rgba(245,240,232,.25))
-          drop-shadow(0 0 60px rgba(245,240,232,.12));
+  filter: drop-shadow(0 0 30px rgba(245,240,232,0.25))
+          drop-shadow(0 0 60px rgba(245,240,232,0.12));
   animation: moonFloat 12s ease-in-out infinite;
 }
 @keyframes moonFloat {
   0%,100% { transform: translateY(0) rotate(0deg); }
-  25%     { transform: translateY(-6px) rotate(0.5deg); }
-  50%     { transform: translateY(-3px) rotate(0deg); }
-  75%     { transform: translateY(-8px) rotate(-0.5deg); }
+  25%      { transform: translateY(-8px) rotate(0.5deg); }
+  50%      { transform: translateY(-4px) rotate(0deg); }
+  75%      { transform: translateY(-10px) rotate(-0.5deg); }
+}
+
+/* 月亮光晕 */
+.moon-glow {
+  position: absolute;
+  top: 6%;
+  right: 13.5%;
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(245,240,232,0.18) 0%, transparent 70%);
+  z-index: 3;
+  pointer-events: none;
+  animation: glowPulse 6s ease-in-out infinite;
+}
+@keyframes glowPulse {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.15); }
 }
 
 /* 水中月影 */
 .moon-reflection {
   position: absolute;
-  bottom: 12%;
-  right: 18%;
+  bottom: 14%;
+  right: 15%;
   z-index: 3;
   pointer-events: none;
-  opacity: 0.25;
+  opacity: 0.22;
   filter: blur(4px);
   animation: refShimmer 5s ease-in-out infinite;
 }
 @keyframes refShimmer {
-  0%,100% { opacity: 0.2; transform: scaleY(0.7); }
-  50%     { opacity: 0.35; transform: scaleY(0.85); }
+  0%,100% { opacity: 0.18; transform: scaleY(0.7) scaleX(1.05); }
+  50%      { opacity: 0.32; transform: scaleY(0.85) scaleX(1); }
 }
 
 /* 晨雾粒子 */
@@ -360,13 +403,13 @@ body {
 .mist-dot {
   position: absolute;
   border-radius: 50%;
-  background: rgba(255,255,255,0.15);
+  background: rgba(255,255,255,0.14);
   animation: mistDrift linear infinite;
 }
 @keyframes mistDrift {
   0%   { transform: translateY(0) translateX(0); opacity: 0; }
   10%  { opacity: 1; }
-  90%  { opacity: 1; }
+  90%  { opacity: 0.8; }
   100% { transform: translateY(-120px) translateX(30px); opacity: 0; }
 }
 
@@ -376,34 +419,144 @@ body {
   z-index: 10;
   text-align: center;
   pointer-events: none;
+  margin-bottom: 48px;
 }
 .title-main {
-  font-size: clamp(48px, 8vw, 88px);
-  font-weight: 200;
-  letter-spacing: .25em;
+  font-size: clamp(52px, 9vw, 96px);
+  font-weight: 100;
+  letter-spacing: 0.3em;
   color: rgba(255,255,255,0.92);
-  text-shadow: 0 2px 40px rgba(255,255,255,0.15),
-               0 0 80px rgba(180,200,220,0.08);
-  line-height: 1.2;
+  text-shadow: 0 2px 40px rgba(255,255,255,0.12),
+               0 0 80px rgba(180,200,220,0.06);
+  line-height: 1.3;
   animation: titleReveal 2.4s cubic-bezier(.22,.61,.36,1) both;
+  font-family: 'PingFang SC', 'STKaiti', 'KaiTi', serif;
 }
 @keyframes titleReveal {
-  0%   { opacity: 0; transform: translateY(30px); letter-spacing: .5em; }
-  100% { opacity: 1; transform: translateY(0); letter-spacing: .25em; }
+  0%   { opacity: 0; transform: translateY(30px); letter-spacing: 0.6em; }
+  100% { opacity: 1; transform: translateY(0); letter-spacing: 0.3em; }
 }
 .title-sub {
-  margin-top: 14px;
-  font-size: clamp(13px, 1.6vw, 16px);
+  margin-top: 16px;
+  font-size: clamp(13px, 1.6vw, 17px);
   font-weight: 300;
-  letter-spacing: .18em;
-  color: rgba(255,255,255,0.45);
-  animation: titleReveal 2.4s cubic-bezier(.22,.61,.36,1) .3s both;
+  letter-spacing: 0.2em;
+  color: rgba(255,255,255,0.4);
+  animation: titleReveal 2.4s cubic-bezier(.22,.61,.36,1) 0.3s both;
+}
+
+/* 千里烟波按钮 */
+.enter-btn-wrap {
+  position: relative;
+  z-index: 10;
+  animation: btnAppear 1.8s cubic-bezier(.22,.61,.36,1) 0.6s both;
+}
+@keyframes btnAppear {
+  0%   { opacity: 0; transform: translateY(20px) scale(0.96); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.enter-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 260px;
+  padding: 16px 52px;
+  border: 1.5px solid rgba(255,255,255,0.35);
+  border-radius: 60px;
+  background: rgba(255,255,255,0.06);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: rgba(255,255,255,0.9);
+  font-size: 17px;
+  font-weight: 400;
+  letter-spacing: 0.35em;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.35s cubic-bezier(.4,0,.2,1);
+  font-family: 'PingFang SC', 'STKaiti', 'KaiTi', serif;
+  overflow: hidden;
+  text-decoration: none;
+}
+.enter-btn::before {
+  content: '';
+  position: absolute;
+  inset: -1.5px;
+  border-radius: 60px;
+  background: linear-gradient(135deg,
+    rgba(255,255,255,0.25),
+    rgba(255,255,255,0.05) 50%,
+    rgba(255,255,255,0.15)
+  );
+  opacity: 0;
+  transition: opacity 0.35s;
+  z-index: -1;
+}
+/* 按钮脉冲光框 */
+.enter-btn::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 62px;
+  border: 1px solid rgba(255,255,255,0.15);
+  animation: btnPulse 3s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes btnPulse {
+  0%, 100% { opacity: 0; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.04); }
+}
+.enter-btn:hover {
+  border-color: rgba(255,255,255,0.6);
+  background: rgba(255,255,255,0.12);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.2),
+              0 0 40px rgba(180,200,220,0.08);
+}
+.enter-btn:hover::before { opacity: 1; }
+.enter-btn:hover::after { animation: none; opacity: 0.7; border-color: rgba(255,255,255,0.35); }
+.enter-btn:active {
+  transform: translateY(0) scale(0.98);
+  background: rgba(255,255,255,0.18);
+}
+.enter-btn .arrow {
+  display: inline-block;
+  margin-left: 12px;
+  font-size: 15px;
+  transition: transform 0.35s;
+}
+.enter-btn:hover .arrow {
+  transform: translateX(4px);
+}
+
+/* 按钮下方提示文字 */
+.enter-hint {
+  display: block;
+  margin-top: 14px;
+  font-size: 12px;
+  color: rgba(255,255,255,0.3);
+  letter-spacing: 0.1em;
+  font-weight: 300;
+  animation: btnAppear 1.8s cubic-bezier(.22,.61,.36,1) 0.9s both;
+}
+
+/* 主应用容器 - 初始隐藏 */
+.app-container {
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
+  opacity: 0;
+  transition: opacity 0.5s 0.3s;
+}
+.app-container.visible {
+  opacity: 1;
 }
 
 /* 场景容器隐藏/显示 */
 .landing-scene.hidden { display: none; }
 
-/* ══════════════════════════════════════
+/* ═════════════════════════════════════
    Main Content
 ══════════════════════════════════════ */
 #contentArea {
@@ -436,7 +589,7 @@ body {
 .view-toggle {
   display: flex; gap: 3px;
   background: var(--bg2);
-  border: 1px solid var(--border);
+  border:1px solid var(--border);
   border-radius: var(--rs);
   padding: 3px;
   transition: background .25s;
@@ -451,7 +604,7 @@ body {
 }
 .view-btn.active { background: var(--bg3); color: var(--text); }
 
-/* ── Stats ── */
+/* Stats */
 .stats-bar {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -460,7 +613,7 @@ body {
 }
 .stat-card {
   background: var(--bg2);
-  border: 1px solid var(--border);
+  border:1px solid var(--border);
   border-radius: var(--r);
   padding: 16px 18px;
   transition: border-color .2s, background .25s, transform .15s;
@@ -474,12 +627,12 @@ body {
 .sv-amber  { color: var(--amber);   }
 .stat-sub  { font-size: 11px; color: var(--text3); margin-top: 4px; }
 
-/* ── Filter Bar ── */
+/* Filter Bar */
 .filter-bar { display: flex; gap: 8px; margin-bottom: 18px; flex-wrap: wrap; }
 .filter-chip {
   padding: 5px 14px;
   border-radius: 20px;
-  border: 1px solid var(--border);
+  border:1px solid var(--border);
   background: transparent;
   color: var(--text2);
   font-size: 12.5px;
@@ -494,7 +647,7 @@ body {
   color: var(--accent);
 }
 
-/* ── Section Label ── */
+/* Section Label */
 .section-label {
   font-size: 11px; font-weight: 600;
   color: var(--text3); text-transform: uppercase;
@@ -503,10 +656,10 @@ body {
   display: flex; align-items: center; gap: 10px;
 }
 .section-label::after {
-  content: ''; flex: 1; height: 1px; background: var(--border);
+  content: ''; flex:1; height: 1px; background: var(--border);
 }
 
-/* ── Card Grid ── */
+/* Card Grid */
 .card-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -516,7 +669,7 @@ body {
 
 .resource-card {
   background: var(--bg2);
-  border: 1px solid var(--border);
+  border:1px solid var(--border);
   border-radius: var(--r);
   padding: 18px;
   cursor: pointer;
@@ -584,7 +737,7 @@ body {
 }
 .card-footer {
   display: flex; align-items: center; justify-content: space-between;
-  padding-top: 10px; border-top: 1px solid var(--border);
+  padding-top: 10px; border-top:1px solid var(--border);
   transition: border-color .25s;
 }
 .card-tags { display: flex; flex-wrap: wrap; gap: 5px; }
@@ -596,7 +749,7 @@ body {
 .card-tag:hover { background: rgba(108,138,255,.25); }
 .card-date { font-size: 11px; color: var(--text3); white-space: nowrap; }
 
-/* ── Empty ── */
+/* Empty */
 .empty-state {
   text-align: center; padding: 64px 20px;
   grid-column: 1 / -1;
@@ -604,11 +757,11 @@ body {
 .empty-icon { font-size: 48px; margin-bottom: 12px; }
 .empty-state p { font-size: 14px; margin-bottom: 18px; color: var(--text2); }
 
-/* ══════════════════════════════════════
+/* ═════════════════════════════════════
    Modal
 ══════════════════════════════════════ */
 .modal-overlay {
-  position: fixed; inset: 0;
+  position: fixed; inset:0;
   background: var(--overlay);
   backdrop-filter: blur(5px);
   display: flex; align-items: center; justify-content: center;
@@ -620,7 +773,7 @@ body {
 
 .modal {
   background: var(--bg2);
-  border: 1px solid var(--border2);
+  border:1px solid var(--border2);
   border-radius: 18px;
   padding: 28px;
   width: 530px; max-width: 93vw; max-height: 90vh;
@@ -652,7 +805,7 @@ body {
 .form-input, .form-textarea {
   width: 100%;
   background: var(--bg3);
-  border: 1px solid var(--border);
+  border:1px solid var(--border);
   border-radius: var(--rs);
   padding: 9px 12px;
   color: var(--text); font-size: 13.5px; font-family: inherit;
@@ -667,7 +820,7 @@ body {
 }
 .type-opt {
   padding: 10px 4px; border-radius: var(--rs);
-  border: 1px solid var(--border);
+  border:1px solid var(--border);
   background: var(--bg3); color: var(--text2);
   font-size: 11.5px; text-align: center;
   cursor: pointer; transition: all .15s; font-family: inherit;
@@ -682,13 +835,13 @@ body {
 .modal-footer {
   display: flex; gap: 10px; justify-content: flex-end;
   margin-top: 22px; padding-top: 16px;
-  border-top: 1px solid var(--border);
+  border-top:1px solid var(--border);
   transition: border-color .25s;
 }
 
 .btn-cancel {
   padding: 9px 18px; border-radius: var(--rs);
-  border: 1px solid var(--border);
+  border:1px solid var(--border);
   background: transparent; color: var(--text2);
   font-size: 13px; cursor: pointer;
   transition: all .15s; font-family: inherit;
@@ -703,13 +856,13 @@ body {
 }
 .btn-save:hover { opacity: .86; }
 
-/* ── Detail Modal ── */
+/* Detail Modal */
 .detail-url-link {
   display: inline-flex; align-items: center; gap: 6px;
   color: var(--accent); font-size: 13px; text-decoration: none;
   padding: 7px 14px;
   background: rgba(108,138,255,.1);
-  border-radius: var(--rs); border: 1px solid rgba(108,138,255,.25);
+  border-radius: var(--rs); border:1px solid rgba(108,138,255,.25);
   transition: background .15s;
 }
 .detail-url-link:hover { background: rgba(108,138,255,.2); }
@@ -717,7 +870,7 @@ body {
   background: var(--bg3); border-radius: var(--rs);
   padding: 14px 16px; font-size: 13.5px;
   color: var(--text2); line-height: 1.75;
-  border: 1px solid var(--border);
+  border:1px solid var(--border);
   white-space: pre-wrap;
   transition: background .25s;
 }
@@ -727,10 +880,10 @@ body {
   background: var(--tag-bg); color: var(--tag-txt); font-size: 12px;
 }
 
-/* ── Toast ── */
+/* Toast */
 .toast {
   position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(12px);
-  background: var(--bg3); border: 1px solid var(--border2);
+  background: var(--bg3); border:1px solid var(--border2);
   border-radius: 24px; padding: 9px 20px;
   font-size: 13px; color: var(--text); white-space: nowrap;
   box-shadow: var(--card-shadow);
@@ -739,7 +892,7 @@ body {
 }
 .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-/* ── Upload Zone ── */
+/* Upload Zone */
 .upload-zone {
   border: 2px dashed var(--border2);
   border-radius: var(--r);
@@ -766,7 +919,7 @@ body {
   padding: 10px 14px;
   background: var(--bg3);
   border-radius: var(--rs);
-  border: 1px solid var(--border);
+  border:1px solid var(--border);
   margin-bottom: 14px;
   transition: background .25s;
 }
@@ -795,245 +948,266 @@ body {
 }
 .btn-download:hover { opacity: .86; }
 
-/* ── Responsive ── */
+/* Responsive */
 @media (max-width: 800px) {
   .sidebar { display: none; }
   #contentArea { padding: 20px 16px; }
   .stats-bar { grid-template-columns: repeat(2,1fr); }
   .card-grid { grid-template-columns: 1fr; }
-  .landing-scene { min-height: calc(100vh - 40px); border-radius: 0; }
-  .crescent-moon { top: 6%; right: 10%; width: 55px; height: 55px; }
-  .moon-reflection { display: none; }
-  .willow-left, .willow-right { width: 150px; opacity: 0.4; }
-  .title-main { font-size: 40px; letter-spacing: .15em; }
+  .landing-page .crescent-moon { top: 6%; right: 10%; width: 50px; height: 50px; }
+  .landing-page .moon-reflection { display: none; }
+  .willow-left, .willow-right { width: 140px; opacity: 0.35; }
+  .title-main { font-size: 40px; letter-spacing: 0.18em; }
   .title-sub { font-size: 13px; }
+  .enter-btn { min-width: 200px; padding: 14px 36px; font-size: 15px; }
 }
 </style>
 </head>
 <body>
 
-<!-- ═══════════ SIDEBAR ═══════════ -->
-<aside class="sidebar">
-  <div class="sidebar-logo">
-    <div class="logo-dot"></div>
-    晓风残月
+<!-- ════════════
+     欢迎页 — 全屏首屏
+════════════ -->
+<div class="landing-page" id="landingPage">
+  <!-- 星空 -->
+  <canvas class="star-field" id="starField"></canvas>
+
+  <!-- 月亮光晕 -->
+  <div class="moon-glow"></div>
+
+  <!-- 柳枝 左 -->
+  <svg class="willow-left" viewBox="0 0 280 800" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="willowGradL" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="#3a5068" stop-opacity="0.7"/>
+        <stop offset="100%" stop-color="#5a7a6a" stop-opacity="0.35"/>
+      </linearGradient>
+    </defs>
+    <path d="M140,0 Q130,80 125,160 Q118,260 135,380 Q128,460 115,540 Q120,620 130,720" stroke="url(#willowGradL)" fill="none" stroke-width="2.5" opacity="0.8"/>
+    <path d="M135,50 Q105,90 95,140 Q88,200 100,280 Q92,340 82,400 Q88,460 95,530" stroke="url(#willowGradL)" fill="none" stroke-width="1.8" opacity="0.6"/>
+    <path d="M128,30 Q90,70 85,120 Q78,180 92,260 Q84,310 75,370 Q82,430 90,500" stroke="url(#willowGradL)" fill="none" stroke-width="1.4" opacity="0.45"/>
+    <path d="M145,60 Q108,100 102,150 Q95,210 108,300 Q100,350 92,410" stroke="url(#willowGradL)" fill="none" stroke-width="1.2" opacity="0.4"/>
+    <ellipse cx="95" cy="140" rx="14" ry="3" fill="#4a6a5a" opacity="0.35" transform="rotate(-20,95,140)"/>
+    <ellipse cx="100" cy="180" rx="12" ry="2.5" fill="#4a6a5a" opacity="0.3" transform="rotate(-15,100,180)"/>
+    <ellipse cx="92" cy="200" rx="13" ry="2.8" fill="#4a6a5a" opacity="0.28" transform="rotate(-22,92,200)"/>
+    <ellipse cx="88" cy="260" rx="11" ry="2.2" fill="#4a6a5a" opacity="0.32" transform="rotate(-18,88,260)"/>
+    <ellipse cx="102" cy="280" rx="12" ry="2.5" fill="#4a6a5a" opacity="0.28" transform="rotate(-12,102,280)"/>
+    <ellipse cx="84" cy="340" rx="10" ry="2" fill="#4a6a5a" opacity="0.3" transform="rotate(-20,84,340)"/>
+    <ellipse cx="92" cy="380" rx="11" ry="2.2" fill="#4a6a5a" opacity="0.25" transform="rotate(-16,92,380)"/>
+  </svg>
+
+  <!-- 柳枝 右 -->
+  <svg class="willow-right" viewBox="0 0 280 800" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="willowGradR" x1="1" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#3a5068" stop-opacity="0.6"/>
+        <stop offset="100%" stop-color="#5a7a6a" stop-opacity="0.3"/>
+      </linearGradient>
+    </defs>
+    <path d="M140,0 Q150,90 155,170 Q162,270 148,390 Q155,470 168,550 Q160,630 150,720" stroke="url(#willowGradR)" fill="none" stroke-width="2.2" opacity="0.7"/>
+    <path d="M145,40 Q175,80 185,130 Q192,190 178,270 Q186,330 195,390 Q188,450 180,520" stroke="url(#willowGradR)" fill="none" stroke-width="1.6" opacity="0.55"/>
+    <path d="M150,30 Q185,65 192,115 Q198,175 182,255 Q190,310 198,370" stroke="url(#willowGradR)" fill="none" stroke-width="1.2" opacity="0.4"/>
+    <ellipse cx="185" cy="130" rx="13" ry="2.8" fill="#4a6a5a" opacity="0.32" transform="rotate(18,185,130)"/>
+    <ellipse cx="178" cy="180" rx="12" ry="2.4" fill="#4a6a5a" opacity="0.28" transform="rotate(14,178,180)"/>
+    <ellipse cx="190" cy="200" rx="11" ry="2.2" fill="#4a6a5a" opacity="0.3" transform="rotate(20,190,200)"/>
+    <ellipse cx="182" cy="260" rx="13" ry="2.6" fill="#4a6a5a" opacity="0.26" transform="rotate(16,182,260)"/>
+    <ellipse cx="192" cy="310" rx="10" ry="2" fill="#4a6a5a" opacity="0.28" transform="rotate(22,192,310)"/>
+    <ellipse cx="195" cy="360" rx="11" ry="2.2" fill="#4a6a5a" opacity="0.24" transform="rotate(18,195,360)"/>
+  </svg>
+
+  <!-- 残月 -->
+  <svg class="crescent-moon" width="80" height="80" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <radialGradient id="moonGlow" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#fef9ef" stop-opacity="0.95"/>
+        <stop offset="70%" stop-color="#f5ead0" stop-opacity="0.85"/>
+        <stop offset="100%" stop-color="#e8d5a0" stop-opacity="0.5"/>
+      </radialGradient>
+    </defs>
+    <path d="M40,8 A32,32 0 1,1 15,55 A28,28 0 1,0 40,8 Z" fill="url(#moonGlow)"/>
+  </svg>
+
+  <!-- 水中月影 -->
+  <svg class="moon-reflection" width="60" height="30" viewBox="0 0 80 40" xmlns="http://www.w3.org/2000/svg">
+    <path d="M40,4 A32,16 0 1,1 15,28 A28,14 0 1,0 40,4 Z" fill="rgba(245,235,210,0.5)"/>
+  </svg>
+
+  <!-- 水面波纹 -->
+  <svg class="water-ripple" viewBox="0 0 1200 200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,80 Q75,70 150,80 Q225,90 300,80 Q375,70 450,80 Q525,90 600,80 Q675,70 750,80 Q825,90 900,80 Q975,70 1050,80 Q1125,90 1200,80 L1200,200 L0,200 Z" fill="rgba(255,255,255,0.06)"/>
+    <path d="M0,100 Q100,88 200,100 Q300,112 400,100 Q500,88 600,100 Q700,112 800,100 Q900,88 1000,100 Q1100,112 1200,100 L1200,200 L0,200 Z" fill="rgba(255,255,255,0.04)"/>
+  </svg>
+
+  <!-- 晨雾粒子 -->
+  <div class="mist-particles" id="mistContainer"></div>
+
+  <!-- 标题 + 按钮 -->
+  <div class="title-block">
+    <div class="title-main">晓 风 残 月</div>
+    <div class="title-sub">学 无 止 境 · 心 有 所 栖</div>
   </div>
 
-  <div class="sb-search">
-    <span class="si">🔍</span>
-    <input type="text" placeholder="搜索笔记、链接… (Ctrl+K)" id="globalSearch" oninput="handleSearch(this.value)">
-  </div>
-
-  <div class="sb-section">
-    <div class="sb-lbl">导航</div>
-    <div class="nav-item active" onclick="setNav(this,'all')">
-      <span class="ni">✦</span> 全部内容
-      <span class="nbadge" id="badgeAll">0</span>
-    </div>
-    <div class="nav-item" onclick="setNav(this,'note')">
-      <span class="ni">📝</span> 学习笔记
-      <span class="nbadge" id="badgeNote">0</span>
-    </div>
-    <div class="nav-item" onclick="setNav(this,'link')">
-      <span class="ni">🔗</span> 网站链接
-      <span class="nbadge" id="badgeLink">0</span>
-    </div>
-    <div class="nav-item" onclick="setNav(this,'video')">
-      <span class="ni">▶</span> 视频资源
-      <span class="nbadge" id="badgeVideo">0</span>
-    </div>
-    <div class="nav-item" onclick="setNav(this,'pdf')">
-      <span class="ni">📄</span> PDF 文档
-      <span class="nbadge" id="badgePdf">0</span>
-    </div>
-    <div class="nav-item" onclick="setNav(this,'file')">
-      <span class="ni">📁</span> 上传文件
-      <span class="nbadge" id="badgeFile">0</span>
-    </div>
-  </div>
-
-  <div class="sb-tags">
-    <div class="sb-lbl" style="padding:8px 8px 4px">标签</div>
-    <div class="tag-cloud" id="tagCloud"></div>
-  </div>
-
-  <div class="sb-bottom">
-    <!-- 主题切换 -->
-    <div class="theme-toggle-row" onclick="toggleTheme()" title="切换亮/暗模式">
-      <div class="theme-toggle-label">
-        <span id="themeIcon">🌙</span>
-        <span id="themeLabel">深色模式</span>
-      </div>
-      <div class="theme-toggle-track">
-        <div class="theme-toggle-thumb"></div>
-      </div>
-    </div>
-    <button class="add-btn" onclick="openAddModal()">
-      ＋ 添加新内容
+  <div class="enter-btn-wrap">
+    <button class="enter-btn" id="enterBtn">
+      千 里 烟 波
+      <span class="arrow">→</span>
     </button>
+    <span class="enter-hint">点击进入学习空间</span>
   </div>
-</aside>
+</div>
 
-<!-- ═══════════ MAIN ═══════════ -->
-<main class="main" id="mainArea">
-  <!-- 欢迎场景 -->
-  <div class="landing-scene" id="landingScene">
-    <!-- 柳枝 左 -->
-    <svg class="willow-left" viewBox="0 0 280 800" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <linearGradient id="willowGradL" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stop-color="#3a5068" stop-opacity="0.7"/>
-          <stop offset="100%" stop-color="#5a7a6a" stop-opacity="0.35"/>
-        </linearGradient>
-      </defs>
-      <path d="M140,0 Q130,80 125,160 Q118,260 135,380 Q128,460 115,540 Q120,620 130,720" stroke="url(#willowGradL)" fill="none" stroke-width="2.5" opacity="0.8"/>
-      <path d="M135,50 Q105,90 95,140 Q88,200 100,280 Q92,340 82,400 Q88,460 95,530" stroke="url(#willowGradL)" fill="none" stroke-width="1.8" opacity="0.6"/>
-      <path d="M128,30 Q90,70 85,120 Q78,180 92,260 Q84,310 75,370 Q82,430 90,500" stroke="url(#willowGradL)" fill="none" stroke-width="1.4" opacity="0.45"/>
-      <path d="M145,60 Q108,100 102,150 Q95,210 108,300 Q100,350 92,410" stroke="url(#willowGradL)" fill="none" stroke-width="1.2" opacity="0.4"/>
-      <!-- 柳叶 -->
-      <ellipse cx="95" cy="140" rx="14" ry="3" fill="#4a6a5a" opacity="0.35" transform="rotate(-20,95,140)"/>
-      <ellipse cx="100" cy="180" rx="12" ry="2.5" fill="#4a6a5a" opacity="0.3" transform="rotate(-15,100,180)"/>
-      <ellipse cx="92" cy="200" rx="13" ry="2.8" fill="#4a6a5a" opacity="0.28" transform="rotate(-22,92,200)"/>
-      <ellipse cx="88" cy="260" rx="11" ry="2.2" fill="#4a6a5a" opacity="0.32" transform="rotate(-18,88,260)"/>
-      <ellipse cx="102" cy="280" rx="12" ry="2.5" fill="#4a6a5a" opacity="0.28" transform="rotate(-12,102,280)"/>
-      <ellipse cx="84" cy="340" rx="10" ry="2" fill="#4a6a5a" opacity="0.3" transform="rotate(-20,84,340)"/>
-      <ellipse cx="92" cy="380" rx="11" ry="2.2" fill="#4a6a5a" opacity="0.25" transform="rotate(-16,92,380)"/>
-    </svg>
-
-    <!-- 柳枝 右 -->
-    <svg class="willow-right" viewBox="0 0 280 800" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <linearGradient id="willowGradR" x1="1" y1="0" x2="0" y2="1">
-          <stop offset="0%" stop-color="#3a5068" stop-opacity="0.6"/>
-          <stop offset="100%" stop-color="#5a7a6a" stop-opacity="0.3"/>
-        </linearGradient>
-      </defs>
-      <path d="M140,0 Q150,90 155,170 Q162,270 148,390 Q155,470 168,550 Q160,630 150,720" stroke="url(#willowGradR)" fill="none" stroke-width="2.2" opacity="0.7"/>
-      <path d="M145,40 Q175,80 185,130 Q192,190 178,270 Q186,330 195,390 Q188,450 180,520" stroke="url(#willowGradR)" fill="none" stroke-width="1.6" opacity="0.55"/>
-      <path d="M150,30 Q185,65 192,115 Q198,175 182,255 Q190,310 198,370" stroke="url(#willowGradR)" fill="none" stroke-width="1.2" opacity="0.4"/>
-      <!-- 柳叶 -->
-      <ellipse cx="185" cy="130" rx="13" ry="2.8" fill="#4a6a5a" opacity="0.32" transform="rotate(18,185,130)"/>
-      <ellipse cx="178" cy="180" rx="12" ry="2.4" fill="#4a6a5a" opacity="0.28" transform="rotate(14,178,180)"/>
-      <ellipse cx="190" cy="200" rx="11" ry="2.2" fill="#4a6a5a" opacity="0.3" transform="rotate(20,190,200)"/>
-      <ellipse cx="182" cy="260" rx="13" ry="2.6" fill="#4a6a5a" opacity="0.26" transform="rotate(16,182,260)"/>
-      <ellipse cx="192" cy="310" rx="10" ry="2" fill="#4a6a5a" opacity="0.28" transform="rotate(22,192,310)"/>
-      <ellipse cx="195" cy="360" rx="11" ry="2.2" fill="#4a6a5a" opacity="0.24" transform="rotate(18,195,360)"/>
-    </svg>
-
-    <!-- 残月 -->
-    <svg class="crescent-moon" width="80" height="80" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <radialGradient id="moonGlow" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stop-color="#fef9ef" stop-opacity="0.95"/>
-          <stop offset="70%" stop-color="#f5ead0" stop-opacity="0.85"/>
-          <stop offset="100%" stop-color="#e8d5a0" stop-opacity="0.5"/>
-        </radialGradient>
-      </defs>
-      <path d="M40,8 A32,32 0 1,1 15,55 A28,28 0 1,0 40,8 Z" fill="url(#moonGlow)"/>
-    </svg>
-
-    <!-- 水中月影 -->
-    <svg class="moon-reflection" width="60" height="30" viewBox="0 0 80 40" xmlns="http://www.w3.org/2000/svg">
-      <path d="M40,4 A32,16 0 1,1 15,28 A28,14 0 1,0 40,4 Z" fill="rgba(245,235,210,0.5)"/>
-    </svg>
-
-    <!-- 水面波纹 -->
-    <svg class="water-ripple" viewBox="0 0 1200 200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M0,80 Q75,70 150,80 Q225,90 300,80 Q375,70 450,80 Q525,90 600,80 Q675,70 750,80 Q825,90 900,80 Q975,70 1050,80 Q1125,90 1200,80 L1200,200 L0,200 Z" fill="rgba(255,255,255,0.06)"/>
-      <path d="M0,100 Q100,88 200,100 Q300,112 400,100 Q500,88 600,100 Q700,112 800,100 Q900,88 1000,100 Q1100,112 1200,100 L1200,200 L0,200 Z" fill="rgba(255,255,255,0.04)"/>
-    </svg>
-
-    <!-- 晨雾粒子 -->
-    <div class="mist-particles" id="mistContainer"></div>
-
-    <!-- 标题 -->
-    <div class="title-block">
-      <div class="title-main">晓 风 残 月</div>
-      <div class="title-sub">学 无 止 境 · 心 有 所 栖</div>
+<!-- ════════════
+     主应用（初始隐藏）
+════════════ -->
+<div class="app-container" id="appContainer">
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-dot"></div>
+      晓风残月
     </div>
-  </div>
 
-  <!-- 内容区域 -->
-  <div id="contentArea">
-  <div class="main-header">
-    <div class="page-title"><span id="pageTitle">全部内容</span></div>
-    <div class="header-right">
-      <div class="view-toggle">
-        <button class="view-btn active" onclick="setView('grid',this)" title="网格视图">⊞</button>
-        <button class="view-btn" onclick="setView('list',this)" title="列表视图">☰</button>
+    <div class="sb-search">
+      <span class="si">🔍</span>
+      <input type="text" placeholder="搜索笔记、链接… (Ctrl+K)" id="globalSearch">
+    </div>
+
+    <div class="sb-section">
+      <div class="sb-lbl">导航</div>
+      <div class="nav-item active" data-nav="all">
+        <span class="ni">✦</span> 全部内容
+        <span class="nbadge" id="badgeAll">0</span>
+      </div>
+      <div class="nav-item" data-nav="note">
+        <span class="ni">📝</span> 学习笔记
+        <span class="nbadge" id="badgeNote">0</span>
+      </div>
+      <div class="nav-item" data-nav="link">
+        <span class="ni">🔗</span> 网站链接
+        <span class="nbadge" id="badgeLink">0</span>
+      </div>
+      <div class="nav-item" data-nav="video">
+        <span class="ni">▶</span> 视频资源
+        <span class="nbadge" id="badgeVideo">0</span>
+      </div>
+      <div class="nav-item" data-nav="pdf">
+        <span class="ni">📄</span> PDF 文档
+        <span class="nbadge" id="badgePdf">0</span>
+      </div>
+      <div class="nav-item" data-nav="file">
+        <span class="ni">📁</span> 上传文件
+        <span class="nbadge" id="badgeFile">0</span>
       </div>
     </div>
-  </div>
 
-  <!-- Stats -->
-  <div class="stats-bar">
-    <div class="stat-card">
-      <div class="stat-label">全部资源</div>
-      <div class="stat-value sv-blue" id="statTotal">0</div>
-      <div class="stat-sub">条内容</div>
+    <div class="sb-tags">
+      <div class="sb-lbl" style="padding:8px 8px 4px">标签</div>
+      <div class="tag-cloud" id="tagCloud"></div>
     </div>
-    <div class="stat-card">
-      <div class="stat-label">学习笔记</div>
-      <div class="stat-value sv-purple" id="statNotes">0</div>
-      <div class="stat-sub">篇感悟</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-label">收藏链接</div>
-      <div class="stat-value sv-green" id="statLinks">0</div>
-      <div class="stat-sub">个网站</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-label">视频 & PDF</div>
-      <div class="stat-value sv-amber" id="statMedia">0</div>
-      <div class="stat-sub">个文件 & 媒体</div>
-    </div>
-  </div>
 
-  <!-- Filter -->
-  <div class="filter-bar">
-    <button class="filter-chip active" onclick="setFilter('all',this)">全部</button>
-    <button class="filter-chip" onclick="setFilter('note',this)">📝 笔记</button>
-    <button class="filter-chip" onclick="setFilter('link',this)">🔗 链接</button>
-    <button class="filter-chip" onclick="setFilter('video',this)">▶ 视频</button>
-    <button class="filter-chip" onclick="setFilter('pdf',this)">📄 PDF</button>
-    <button class="filter-chip" onclick="setFilter('file',this)">📁 文件</button>
-  </div>
+    <div class="sb-bottom">
+      <!-- 主题切换 -->
+      <div class="theme-toggle-row" id="themeToggle" title="切换亮/暗模式">
+        <div class="theme-toggle-label">
+          <span id="themeIcon">🌙</span>
+          <span id="themeLabel">深色模式</span>
+        </div>
+        <div class="theme-toggle-track">
+          <div class="theme-toggle-thumb"></div>
+        </div>
+      </div>
+      <button class="add-btn" id="addBtn">
+        ＋ 添加新内容
+      </button>
+    </div>
+  </aside>
 
-  <div class="section-label" id="sectionLabel">最近添加</div>
-  <div class="card-grid" id="cardGrid"></div>
-  </div><!-- /contentArea -->
-</main>
+  <!-- MAIN -->
+  <main class="main" id="mainArea">
+    <!-- 内容区域 -->
+    <div id="contentArea">
+      <div class="main-header">
+        <div class="page-title"><span id="pageTitle">全部内容</span></div>
+        <div class="header-right">
+          <div class="view-toggle">
+            <button class="view-btn active" data-view="grid" title="网格视图">⊞</button>
+            <button class="view-btn" data-view="list" title="列表视图">☰</button>
+          </div>
+        </div>
+      </div>
 
-<!-- ═══════════ ADD / EDIT MODAL ═══════════ -->
-<div class="modal-overlay" id="addOverlay" onclick="closeOnBg(event,'addOverlay')">
+      <!-- Stats -->
+      <div class="stats-bar">
+        <div class="stat-card">
+          <div class="stat-label">全部资源</div>
+          <div class="stat-value sv-blue" id="statTotal">0</div>
+          <div class="stat-sub">条内容</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">学习笔记</div>
+          <div class="stat-value sv-purple" id="statNotes">0</div>
+          <div class="stat-sub">篇感悟</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">收藏链接</div>
+          <div class="stat-value sv-green" id="statLinks">0</div>
+          <div class="stat-sub">个网站</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">视频 & PDF</div>
+          <div class="stat-value sv-amber" id="statMedia">0</div>
+          <div class="stat-sub">个文件 & 媒体</div>
+        </div>
+      </div>
+
+      <!-- Filter -->
+      <div class="filter-bar" id="filterBar">
+        <button class="filter-chip active" data-filter="all">全部</button>
+        <button class="filter-chip" data-filter="note">📝 笔记</button>
+        <button class="filter-chip" data-filter="link">🔗 链接</button>
+        <button class="filter-chip" data-filter="video">▶ 视频</button>
+        <button class="filter-chip" data-filter="pdf">📄 PDF</button>
+        <button class="filter-chip" data-filter="file">📁 文件</button>
+      </div>
+
+      <div class="section-label" id="sectionLabel">最近添加</div>
+      <div class="card-grid" id="cardGrid"></div>
+    </div><!-- /contentArea -->
+  </main>
+</div>
+
+<!-- ════════════
+     ADD / EDIT MODAL
+════════════ -->
+<div class="modal-overlay" id="addOverlay">
   <div class="modal">
     <div class="modal-header">
       <span id="modalTitleText">添加新内容</span>
-      <div class="modal-close" onclick="closeAddModal()">✕</div>
+      <div class="modal-close" id="addModalClose">✕</div>
     </div>
 
     <div class="form-group">
       <div class="form-label">内容类型</div>
-      <div class="type-grid">
-        <div class="type-opt active" onclick="setType('note',this)"><span class="ti">📝</span>笔记</div>
-        <div class="type-opt" onclick="setType('link',this)"><span class="ti">🔗</span>链接</div>
-        <div class="type-opt" onclick="setType('video',this)"><span class="ti">▶</span>视频</div>
-        <div class="type-opt" onclick="setType('pdf',this)"><span class="ti">📄</span>PDF</div>
-        <div class="type-opt" onclick="setType('file',this)"><span class="ti">📁</span>文件</div>
+      <div class="type-grid" id="typeGrid">
+        <div class="type-opt active" data-type="note"><span class="ti">📝</span>笔记</div>
+        <div class="type-opt" data-type="link"><span class="ti">🔗</span>链接</div>
+        <div class="type-opt" data-type="video"><span class="ti">▶</span>视频</div>
+        <div class="type-opt" data-type="pdf"><span class="ti">📄</span>PDF</div>
+        <div class="type-opt" data-type="file"><span class="ti">📁</span>文件</div>
       </div>
     </div>
     <!-- 文件上传区 -->
-    <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()">
+    <div class="upload-zone" id="uploadZone">
       <div class="upload-icon">📤</div>
       <div class="upload-text">点击上传或拖拽文件到此处</div>
       <div class="upload-hint">支持 PDF、Word、Excel、PPT、图片、代码文件等（最大 50MB）</div>
-      <input type="file" id="fileInput" onchange="handleFileSelect(event)" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.py,.js,.ts,.html,.css,.java,.c,.cpp,.go,.rs,.rb,.php,.json,.xml,.md,.png,.jpg,.jpeg,.gif,.svg,.webp,.zip,.rar,.7z">
+      <input type="file" id="fileInput" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.py,.js,.ts,.html,.css,.java,.c,.cpp,.go,.rs,.rb,.php,.json,.xml,.md,.png,.jpg,.jpeg,.gif,.svg,.webp,.zip,.rar,.7z">
     </div>
     <div class="file-info-row" id="fileInfoRow" style="display:none">
       <span class="file-icon" id="fileIcon">📄</span>
       <span class="file-name" id="fileName"></span>
       <span class="file-size" id="fileSize"></span>
-      <span class="file-remove" onclick="removeFile()" title="移除文件">✕</span>
+      <span class="file-remove" id="fileRemove" title="移除文件">✕</span>
     </div>
     <div class="form-group">
       <div class="form-label">标题 *</div>
@@ -1054,23 +1228,25 @@ body {
     <input type="hidden" id="editingId">
 
     <div class="modal-footer">
-      <button class="btn-cancel" onclick="closeAddModal()">取消</button>
-      <button class="btn-save" onclick="saveItem()">保存</button>
+      <button class="btn-cancel" id="addModalCancel">取消</button>
+      <button class="btn-save" id="addModalSave">保存</button>
     </div>
   </div>
 </div>
 
-<!-- ═══════════ DETAIL MODAL ═══════════ -->
-<div class="modal-overlay" id="detailOverlay" onclick="closeOnBg(event,'detailOverlay')">
+<!-- ════════════
+     DETAIL MODAL
+════════════ -->
+<div class="modal-overlay" id="detailOverlay">
   <div class="modal">
     <div class="modal-header">
       <span id="detailBadge"></span>
-      <div class="modal-close" onclick="closeDetailModal()">✕</div>
+      <div class="modal-close" id="detailModalClose">✕</div>
     </div>
     <div id="detailContent"></div>
     <div class="modal-footer">
-      <button class="btn-cancel" onclick="closeDetailModal()">关闭</button>
-      <button class="btn-save" onclick="editCurrentDetail()">编辑</button>
+      <button class="btn-cancel" id="detailModalCloseBtn">关闭</button>
+      <button class="btn-save" id="detailModalEditBtn">编辑</button>
     </div>
   </div>
 </div>
@@ -1079,7 +1255,7 @@ body {
 <div class="toast" id="toast"></div>
 
 <script>
-/* ══════════════════════════════════════
+/* ═════════════════════════════════════
    IndexedDB — 文件存储
 ══════════════════════════════════════ */
 const FileDB = (() => {
@@ -1153,7 +1329,73 @@ function formatSize(bytes) {
   return (bytes / 1048576).toFixed(1) + ' MB';
 }
 
-/* ══════════════════════════════════════
+/* ═════════════════════════════════════
+   星空Canvas
+══════════════════════════════════════ */
+(function initStars() {
+  const canvas = document.getElementById('starField');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let stars = [];
+  function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight * 0.75;
+  }
+  function genStars() {
+    stars = [];
+    const count = Math.floor(canvas.width * canvas.height / 1800);
+    for (let i = 0; i < count; i++) {
+      stars.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        r: Math.random() * 1.2 + 0.3,
+        alpha: Math.random() * 0.7 + 0.3,
+        twinkleSpeed: 2 + Math.random() * 4,
+        twinkleOffset: Math.random() * Math.PI * 2,
+      });
+    }
+  }
+  function draw(time) {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    for (const s of stars) {
+      const flicker = Math.sin(time * 0.001 / s.twinkleSpeed + s.twinkleOffset) * 0.3 + 0.7;
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(255,255,240,${s.alpha * flicker})`;
+      ctx.fill();
+    }
+    requestAnimationFrame(draw);
+  }
+  resize();
+  genStars();
+  requestAnimationFrame(draw);
+  window.addEventListener('resize', () => { resize(); genStars(); });
+})();
+
+/* ═════════════════════════════════════
+   晨雾粒子生成
+══════════════════════════════════════ */
+(function initMist() {
+  const container = document.getElementById('mistContainer');
+  if (!container) return;
+  let html = '';
+  for (let i = 0; i < 35; i++) {
+    const left = Math.random() * 100;
+    const top  = 50 + Math.random() * 50;
+    const size = 2 + Math.random() * 4;
+    const dur  = 8 + Math.random() * 16;
+    const del  = Math.random() * 14;
+    const alpha = 0.06 + Math.random() * 0.1;
+    html += `<div class="mist-dot" style="
+      left:${left}%;top:${top}%;width:${size}px;height:${size}px;
+      background:rgba(255,255,255,${alpha});
+      animation-duration:${dur}s;animation-delay:${del}s;
+    "></div>`;
+  }
+  container.innerHTML = html;
+})();
+
+/* ═════════════════════════════════════
    主题切换
 ══════════════════════════════════════ */
 let theme = localStorage.getItem('theme') || 'dark';
@@ -1162,8 +1404,10 @@ applyTheme(theme);
 function applyTheme(t) {
   theme = t;
   document.documentElement.setAttribute('data-theme', t);
-  document.getElementById('themeIcon').textContent  = t === 'dark' ? '🌙' : '☀️';
-  document.getElementById('themeLabel').textContent = t === 'dark' ? '深色模式' : '浅色模式';
+  const icon  = document.getElementById('themeIcon');
+  const label = document.getElementById('themeLabel');
+  if (icon)  icon.textContent  = t === 'dark' ? '🌙' : '☀️';
+  if (label) label.textContent = t === 'dark' ? '深色模式' : '浅色模式';
   localStorage.setItem('theme', t);
 }
 
@@ -1171,7 +1415,22 @@ function toggleTheme() {
   applyTheme(theme === 'dark' ? 'light' : 'dark');
 }
 
-/* ══════════════════════════════════════
+/* ═════════════════════════════════════
+   进入学习空间
+══════════════════════════════════════ */
+function enterLearningSpace() {
+  const page = document.getElementById('landingPage');
+  const app  = document.getElementById('appContainer');
+  page.classList.add('hidden');
+  app.style.display = 'flex';
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      app.classList.add('visible');
+    });
+  });
+}
+
+/* ═════════════════════════════════════
    数据
 ══════════════════════════════════════ */
 let items = JSON.parse(localStorage.getItem('learningItems') || '[]');
@@ -1182,8 +1441,8 @@ let currentSearch = '';
 let currentType   = 'note';
 let activeTag     = '';
 let detailId      = null;
-let pendingFile   = null;   // 待上传文件
-let fileRemoved   = false;  // 用户是否主动移除了文件
+let pendingFile   = null;
+let fileRemoved   = false;
 
 if (items.length === 0) {
   items = [
@@ -1217,7 +1476,7 @@ if (items.length === 0) {
 
 function save() { localStorage.setItem('learningItems', JSON.stringify(items)); }
 
-/* ══════════════════════════════════════
+/* ═════════════════════════════════════
    渲染
 ══════════════════════════════════════ */
 function filtered() {
@@ -1244,8 +1503,10 @@ function renderCards() {
     grid.innerHTML = `<div class="empty-state">
       <div class="empty-icon">✦</div>
       <p>还没有内容，点击「添加新内容」开始记录吧</p>
-      <button class="btn-save" onclick="openAddModal()">＋ 添加第一条</button>
+      <button class="btn-save" id="emptyAddBtn">＋ 添加第一条</button>
     </div>`;
+    const emptyBtn = document.getElementById('emptyAddBtn');
+    if (emptyBtn) emptyBtn.addEventListener('click', openAddModal);
     grid.className = 'card-grid';
     return;
   }
@@ -1255,18 +1516,18 @@ function renderCards() {
 
   grid.innerHTML = list.map(item => {
     const tags = (item.tags||[]).map(t =>
-      `<span class="card-tag" onclick="event.stopPropagation();setActiveTag('${t}')">${t}</span>`
+      `<span class="card-tag" data-tag="${escAttr(t)}">${esc(t)}</span>`
     ).join('');
     const urlBlock = item.url
-      ? `<div class="card-url">🌐 ${item.url.replace(/^https?:\/\//,'').slice(0,50)}</div>` : '';
+      ? `<div class="card-url">🌐 ${esc(item.url.replace(/^https?:\/\//,'').slice(0,50))}</div>` : '';
     const fileBlock = item.fileName
-      ? `<div class="card-url">${getFileIcon(item.fileName)} ${item.fileName} · ${formatSize(item.fileSize)}</div>` : '';
-    return `<div class="resource-card type-${item.type}" onclick="openDetail(${item.id})">
+      ? `<div class="card-url">${getFileIcon(item.fileName)} ${esc(item.fileName)} · ${formatSize(item.fileSize)}</div>` : '';
+    return `<div class="resource-card type-${item.type}" data-id="${item.id}">
       <div class="card-top">
         <span class="card-badge badge-${item.type}">${typeIcon[item.type]} ${typeLabel[item.type]}</span>
         <div class="card-actions">
-          <span class="card-action-btn" onclick="event.stopPropagation();startEdit(${item.id})" title="编辑">✏️</span>
-          <span class="card-action-btn" onclick="event.stopPropagation();deleteItem(${item.id})" title="删除">✕</span>
+          <span class="card-action-btn" data-action="edit" data-id="${item.id}" title="编辑">✏️</span>
+          <span class="card-action-btn" data-action="delete" data-id="${item.id}" title="删除">✕</span>
         </div>
       </div>
       <div class="card-title">${esc(item.title)}</div>
@@ -1302,7 +1563,7 @@ function renderTags() {
   items.forEach(i => (i.tags||[]).forEach(t => map[t] = (map[t]||0)+1));
   const sorted = Object.entries(map).sort((a,b)=>b[1]-a[1]).slice(0,18);
   document.getElementById('tagCloud').innerHTML = sorted.map(([t]) =>
-    `<span class="tag-pill${activeTag===t?' active':''}" onclick="setActiveTag('${t}')">${t}</span>`
+    `<span class="tag-pill${activeTag===t?' active':''}" data-tag="${escAttr(t)}">${esc(t)}</span>`
   ).join('');
 }
 
@@ -1319,61 +1580,135 @@ function render() {
 
 render();
 
-/* ══════════════════════════════════════
-   导航 & 过滤
+/* ═════════════════════════════════════
+   导航 & 过滤 — 事件委托
 ══════════════════════════════════════ */
-function setNav(el, type) {
+
+// 侧边栏导航
+document.querySelector('.sb-section').addEventListener('click', (e) => {
+  const navItem = e.target.closest('.nav-item');
+  if (!navItem) return;
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-  el.classList.add('active');
-  currentNav = type;
+  navItem.classList.add('active');
+  currentNav = navItem.dataset.nav || 'all';
   currentFilter = 'all';
   document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
-  document.querySelectorAll('.filter-chip')[0].classList.add('active');
+  document.querySelector('.filter-chip').classList.add('active');
   const labels = {all:'全部内容',note:'学习笔记',link:'网站链接',video:'视频资源',pdf:'PDF 文档',file:'上传文件'};
-  document.getElementById('pageTitle').textContent = labels[type];
-  // 切换场景/内容显示
-  const scene = document.getElementById('landingScene');
-  const area  = document.getElementById('contentArea');
-  if (type === 'all') {
-    scene.classList.remove('hidden');
-    area.style.display = '';
-  } else {
-    scene.classList.add('hidden');
-    area.style.display = '';
-  }
+  document.getElementById('pageTitle').textContent = labels[currentNav] || '全部内容';
   render();
-}
+});
 
-function setFilter(type, el) {
-  document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
-  el.classList.add('active');
-  currentFilter = type;
-  render();
-}
-
-function setView(type, el) {
-  document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
-  el.classList.add('active');
-  currentView = type;
-  render();
-}
-
-function handleSearch(v) { currentSearch = v; render(); }
-
-function setActiveTag(tag) {
+// 标签云点击
+document.getElementById('tagCloud').addEventListener('click', (e) => {
+  const pill = e.target.closest('.tag-pill');
+  if (!pill) return;
+  const tag = pill.dataset.tag;
   activeTag = activeTag === tag ? '' : tag;
   renderTags();
   render();
-}
+});
 
-/* ══════════════════════════════════════
-   添加 / 编辑 Modal
+// 过滤条
+document.getElementById('filterBar').addEventListener('click', (e) => {
+  const chip = e.target.closest('.filter-chip');
+  if (!chip) return;
+  document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+  chip.classList.add('active');
+  currentFilter = chip.dataset.filter || 'all';
+  render();
+});
+
+// 视图切换
+document.querySelector('.view-toggle').addEventListener('click', (e) => {
+  const btn = e.target.closest('.view-btn');
+  if (!btn) return;
+  document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  currentView = btn.dataset.view || 'grid';
+  render();
+});
+
+// 搜索
+document.getElementById('globalSearch').addEventListener('input', (e) => {
+  currentSearch = e.target.value;
+  render();
+});
+
+// 卡片区域事件委托（点击卡片、编辑、删除、标签）
+document.getElementById('cardGrid').addEventListener('click', (e) => {
+  // 标签点击
+  const tag = e.target.closest('.card-tag');
+  if (tag) {
+    e.stopPropagation();
+    setActiveTag(tag.dataset.tag);
+    return;
+  }
+  // 编辑按钮
+  const editBtn = e.target.closest('[data-action="edit"]');
+  if (editBtn) {
+    e.stopPropagation();
+    startEdit(Number(editBtn.dataset.id));
+    return;
+  }
+  // 删除按钮
+  const delBtn = e.target.closest('[data-action="delete"]');
+  if (delBtn) {
+    e.stopPropagation();
+    deleteItem(Number(delBtn.dataset.id));
+    return;
+  }
+  // 点击卡片主体 → 打开详情
+  const card = e.target.closest('.resource-card');
+  if (card) {
+    openDetail(Number(card.dataset.id));
+  }
+});
+
+/* ═════════════════════════════════════
+   添加 / 编辑 Modal — JS 绑定
+══════════════════════════════════════ */
+const addOverlay    = document.getElementById('addOverlay');
+const detailOverlay = document.getElementById('detailOverlay');
+const uploadZone   = document.getElementById('uploadZone');
+const fileInput    = document.getElementById('fileInput');
+
+document.getElementById('enterBtn').addEventListener('click', enterLearningSpace);
+document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+document.getElementById('addBtn').addEventListener('click', openAddModal);
+document.getElementById('addModalClose').addEventListener('click', closeAddModal);
+document.getElementById('addModalCancel').addEventListener('click', closeAddModal);
+document.getElementById('addModalSave').addEventListener('click', saveItem);
+document.getElementById('detailModalClose').addEventListener('click', closeDetailModal);
+document.getElementById('detailModalCloseBtn').addEventListener('click', closeDetailModal);
+document.getElementById('detailModalEditBtn').addEventListener('click', editCurrentDetail);
+document.getElementById('fileRemove').addEventListener('click', removeFile);
+
+// 类型选择
+document.getElementById('typeGrid').addEventListener('click', (e) => {
+  const opt = e.target.closest('.type-opt');
+  if (!opt) return;
+  document.querySelectorAll('.type-opt').forEach(o => o.classList.remove('active'));
+  opt.classList.add('active');
+  currentType = opt.dataset.type || 'note';
+});
+
+// Modal 背景点击关闭
+addOverlay.addEventListener('click', (e) => {
+  if (e.target === addOverlay) closeAddModal();
+});
+detailOverlay.addEventListener('click', (e) => {
+  if (e.target === detailOverlay) closeDetailModal();
+});
+
+/* ═════════════════════════════════════
+   Modal 操作函数
 ══════════════════════════════════════ */
 function openAddModal() {
   resetForm();
   document.getElementById('editingId').value = '';
   document.getElementById('modalTitleText').textContent = '添加新内容';
-  document.getElementById('addOverlay').classList.add('open');
+  addOverlay.classList.add('open');
   setTimeout(() => document.getElementById('inputTitle').focus(), 80);
 }
 
@@ -1389,18 +1724,16 @@ function startEdit(id) {
   document.getElementById('inputTags').value  = (item.tags||[]).join(' ');
   const types = ['note','link','video','pdf','file'];
   const idx = types.indexOf(item.type);
-  setType(item.type, document.querySelectorAll('.type-opt')[idx >= 0 ? idx : 0]);
-  // 恢复文件信息
+  setTypeActive(types[idx >= 0 ? idx : 0]);
   if (item.fileName) {
     document.getElementById('fileIcon').textContent = getFileIcon(item.fileName);
     document.getElementById('fileName').textContent = item.fileName;
     document.getElementById('fileSize').textContent = formatSize(item.fileSize);
     document.getElementById('fileInfoRow').style.display = 'flex';
-    document.getElementById('uploadZone').style.display = 'none';
-    // pendingFile 保持 null，表示不替换原文件
+    uploadZone.style.display = 'none';
   }
   closeDetailModal();
-  document.getElementById('addOverlay').classList.add('open');
+  addOverlay.classList.add('open');
 }
 
 function editCurrentDetail() {
@@ -1408,12 +1741,11 @@ function editCurrentDetail() {
 }
 
 function closeAddModal() {
-  document.getElementById('addOverlay').classList.remove('open');
+  addOverlay.classList.remove('open');
 }
 
-function setType(type, el) {
-  document.querySelectorAll('.type-opt').forEach(o => o.classList.remove('active'));
-  el.classList.add('active');
+function setTypeActive(type) {
+  document.querySelectorAll('.type-opt').forEach(o => o.classList.toggle('active', o.dataset.type === type));
   currentType = type;
 }
 
@@ -1423,9 +1755,9 @@ function resetForm() {
   document.getElementById('inputDesc').value  = '';
   document.getElementById('inputTags').value  = '';
   currentType = 'note';
-  document.querySelectorAll('.type-opt').forEach((o,i) => o.classList.toggle('active', i===0));
+  setTypeActive('note');
   fileRemoved = false;
-  removeFile();
+  removeFilePending();
 }
 
 async function saveItem() {
@@ -1454,16 +1786,13 @@ async function saveItem() {
       };
 
       if (fileData) {
-        // 替换文件：删旧存新
         if (old.fileId) { try { await FileDB.deleteFile(old.fileId); } catch(e){} }
         Object.assign(updated, fileData);
         await FileDB.saveFile(fileData.fileId, pendingFile);
       } else if (fileRemoved && old.fileId) {
-        // 用户主动移除了文件
         try { await FileDB.deleteFile(old.fileId); } catch(e){}
         delete updated.fileName; delete updated.fileSize; delete updated.fileType; delete updated.fileId;
       }
-      // 否则：没动过文件，保留原文件引用不变
 
       items[idx] = updated;
     }
@@ -1489,7 +1818,7 @@ async function saveItem() {
   render();
 }
 
-/* ══════════════════════════════════════
+/* ═════════════════════════════════════
    详情 Modal
 ══════════════════════════════════════ */
 function openDetail(id) {
@@ -1506,7 +1835,7 @@ function openDetail(id) {
 
   if (item.url) {
     html += `<div style="margin-bottom:14px">
-      <a href="${item.url}" target="_blank" rel="noopener" class="detail-url-link">
+      <a href="${escAttr(item.url)}" target="_blank" rel="noopener" class="detail-url-link">
         🌐 打开链接 ↗
       </a>
     </div>`;
@@ -1541,16 +1870,18 @@ function openDetail(id) {
 
   html += `<p style="margin-top:14px;font-size:11px;color:var(--text3)">添加于 ${item.date}</p>`;
   document.getElementById('detailContent').innerHTML = html;
-  document.getElementById('detailOverlay').classList.add('open');
+  detailOverlay.classList.add('open');
 }
 
 function closeDetailModal() {
-  document.getElementById('detailOverlay').classList.remove('open');
+  detailOverlay.classList.remove('open');
 }
 
-/* ══════════════════════════════════════
+/* ═════════════════════════════════════
    文件操作
 ══════════════════════════════════════ */
+fileInput.addEventListener('change', handleFileSelect);
+
 function handleFileSelect(e) {
   const file = e.target.files[0];
   if (!file) return;
@@ -1568,16 +1899,39 @@ function showFileInfo(file) {
   document.getElementById('fileName').textContent = file.name;
   document.getElementById('fileSize').textContent = formatSize(file.size);
   document.getElementById('fileInfoRow').style.display = 'flex';
-  document.getElementById('uploadZone').style.display = 'none';
+  uploadZone.style.display = 'none';
+}
+
+function removeFilePending() {
+  pendingFile = null;
+  fileRemoved = true;
+  fileInput.value = '';
+  document.getElementById('fileInfoRow').style.display = 'none';
+  uploadZone.style.display = '';
 }
 
 function removeFile() {
-  pendingFile = null;
-  fileRemoved = true;
-  document.getElementById('fileInput').value = '';
-  document.getElementById('fileInfoRow').style.display = 'none';
-  document.getElementById('uploadZone').style.display = '';
+  removeFilePending();
 }
+
+/* 拖拽上传 */
+(function initDragDrop() {
+  if (!uploadZone) return;
+  ['dragenter','dragover'].forEach(ev => {
+    uploadZone.addEventListener(ev, e => { e.preventDefault(); uploadZone.classList.add('drag-over'); });
+  });
+  ['dragleave','drop'].forEach(ev => {
+    uploadZone.addEventListener(ev, e => { e.preventDefault(); uploadZone.classList.remove('drag-over'); });
+  });
+  uploadZone.addEventListener('drop', e => {
+    const file = e.dataTransfer.files[0];
+    if (!file) return;
+    if (file.size > 50 * 1024 * 1024) { toast('文件不能超过 50MB'); return; }
+    pendingFile = file;
+    fileRemoved = false;
+    showFileInfo(file);
+  });
+})();
 
 async function downloadFile(id) {
   try {
@@ -1596,27 +1950,7 @@ async function downloadFile(id) {
   }
 }
 
-/* 拖拽上传 */
-document.addEventListener('DOMContentLoaded', () => {
-  const zone = document.getElementById('uploadZone');
-  if (!zone) return;
-  ['dragenter','dragover'].forEach(ev => {
-    zone.addEventListener(ev, e => { e.preventDefault(); zone.classList.add('drag-over'); });
-  });
-  ['dragleave','drop'].forEach(ev => {
-    zone.addEventListener(ev, e => { e.preventDefault(); zone.classList.remove('drag-over'); });
-  });
-  zone.addEventListener('drop', e => {
-    const file = e.dataTransfer.files[0];
-    if (!file) return;
-    if (file.size > 50 * 1024 * 1024) { toast('文件不能超过 50MB'); return; }
-    pendingFile = file;
-    fileRemoved = false;
-    showFileInfo(file);
-  });
-});
-
-/* ══════════════════════════════════════
+/* ═════════════════════════════════════
    工具函数
 ══════════════════════════════════════ */
 function deleteItem(id) {
@@ -1629,9 +1963,10 @@ function deleteItem(id) {
   toast('已删除');
 }
 
-function closeOnBg(e, id) {
-  if (e.target === document.getElementById(id))
-    document.getElementById(id).classList.remove('open');
+function setActiveTag(tag) {
+  activeTag = activeTag === tag ? '' : tag;
+  renderTags();
+  render();
 }
 
 function esc(s) {
@@ -1640,6 +1975,9 @@ function esc(s) {
     .replace(/</g,'&lt;')
     .replace(/>/g,'&gt;')
     .replace(/"/g,'&quot;');
+}
+function escAttr(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
 
 function shake(el) {
@@ -1660,28 +1998,9 @@ function toast(msg) {
   toastTimer = setTimeout(() => t.classList.remove('show'), 2200);
 }
 
-/* 晨雾粒子生成 */
-(function initMist() {
-  const container = document.getElementById('mistContainer');
-  if (!container) return;
-  let html = '';
-  for (let i = 0; i < 35; i++) {
-    const left = Math.random() * 100;
-    const top  = 50 + Math.random() * 50;
-    const size = 2 + Math.random() * 4;
-    const dur  = 8 + Math.random() * 16;
-    const del  = Math.random() * 14;
-    const alpha = 0.06 + Math.random() * 0.1;
-    html += `<div class="mist-dot" style="
-      left:${left}%;top:${top}%;width:${size}px;height:${size}px;
-      background:rgba(255,255,255,${alpha});
-      animation-duration:${dur}s;animation-delay:${del}s;
-    "></div>`;
-  }
-  container.innerHTML = html;
-})();
-
-/* 键盘快捷键 */
+/* ═════════════════════════════════════
+   键盘快捷键
+══════════════════════════════════════ */
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') {
     closeAddModal();
