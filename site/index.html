@@ -255,6 +255,67 @@ body {
 .add-btn:hover { opacity: .88; transform: translateY(-1px); }
 .add-btn:active { transform: translateY(0); }
 
+/* ── Header 添加按钮（全端可见） ── */
+.header-add-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 18px;
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+  border: none;
+  border-radius: 24px;
+  color: #fff;
+  font-size: 13.5px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  font-family: inherit;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 2px 16px rgba(108,138,255,0.38),
+              0 0 0 1px rgba(108,138,255,0.2);
+  transition: transform .2s cubic-bezier(.25,1,.5,1),
+              box-shadow .2s,
+              opacity .15s;
+}
+.header-add-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg,
+    rgba(255,255,255,0.18) 0%,
+    rgba(255,255,255,0) 60%
+  );
+  border-radius: inherit;
+  pointer-events: none;
+}
+.header-add-btn::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 26px;
+  border: 1px solid rgba(108,138,255,0.35);
+  opacity: 0;
+  transition: opacity .3s;
+  pointer-events: none;
+}
+.header-add-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 28px rgba(108,138,255,0.55),
+              0 0 0 1px rgba(108,138,255,0.35);
+}
+.header-add-btn:hover::after { opacity: 1; }
+.header-add-btn:active {
+  transform: translateY(0) scale(.97);
+  box-shadow: 0 2px 10px rgba(108,138,255,0.3);
+}
+.header-add-btn .btn-plus {
+  font-size: 18px;
+  font-weight: 300;
+  line-height: 1;
+  margin-top: -1px;
+}
+
 /* ═════════════════════════════════════
    欢迎页 — 杨柳岸晓风残月 v8
    巨月悬天 · 柳叶纷飞 · 晓风拂岸
@@ -1730,6 +1791,9 @@ body {
       <div class="main-header">
         <div class="page-title"><span id="pageTitle">全部内容</span></div>
         <div class="header-right">
+          <button class="header-add-btn" id="headerAddBtn">
+            <span class="btn-plus">＋</span> 添加内容
+          </button>
           <div class="view-toggle">
             <button class="view-btn active" data-view="grid" title="网格视图">⊞</button>
             <button class="view-btn" data-view="list" title="列表视图">☰</button>
@@ -2448,6 +2512,7 @@ const fileInput    = document.getElementById('fileInput');
 document.getElementById('enterBtn').addEventListener('click', enterLearningSpace);
 document.getElementById('themeToggle').addEventListener('click', toggleTheme);
 document.getElementById('addBtn').addEventListener('click', openAddModal);
+document.getElementById('headerAddBtn').addEventListener('click', openAddModal);
 document.getElementById('addModalClose').addEventListener('click', closeAddModal);
 document.getElementById('addModalCancel').addEventListener('click', closeAddModal);
 document.getElementById('addModalSave').addEventListener('click', saveItem);
